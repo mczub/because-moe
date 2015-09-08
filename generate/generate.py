@@ -61,7 +61,7 @@ class Hulu(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
-		for show in self.__shows['data']:
+		for show in self.__shows:
 			#print(show['show']['name'])
 			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['show']['name'])), False)
 			if (match_index):
@@ -74,8 +74,13 @@ class Hulu(AnimeSource):
 		oauth_blob = requests.get('http://www.hulu.com/tv/genres/anime')
 		oauth_regex = "w.API_DONUT = '([^']*)';"
 		oauth_key = re.findall(oauth_regex, oauth_blob.text)[0]
-		blob = requests.get('http://www.hulu.com/mozart/v1.h2o/shows?exclude_hulu_content=1&genre=anime&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
-		return json.loads(blob.text)
+		anime_blob = requests.get('http://www.hulu.com/mozart/v1.h2o/shows?exclude_hulu_content=1&genre=anime&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
+		animation_blob = requests.get('http://www.hulu.com/mozart/v1.h2o/shows?exclude_hulu_content=1&genre=animation&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
+		animation_list = json.loads(animation_blob.text)['data']
+		#print(animation_list)
+		animation_list = [x for x in animation_list if x['show']['genre'] == "Anime"]
+		anime_list = json.loads(anime_blob.text)['data']
+		return anime_list + animation_list
 		
 class Netflix(AnimeSource):
 	def __init(self):
