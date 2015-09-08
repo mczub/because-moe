@@ -24,6 +24,11 @@ var bgs = [
 		color: "#713FA4",
 		text: "no game no life"
 	},
+	{
+		cssUrl: "url('./rin.png')",
+		color: "#B20B36",
+		text: "fate/stay night"
+	},
 ]
 
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
