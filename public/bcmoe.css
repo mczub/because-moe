@@ -379,7 +379,7 @@
     }
     .results-container{
         position: absolute;
-        width: 750px;
+        width: 732px;
         height: 100%;   
         text-align: left;
         left: 18px;
@@ -390,6 +390,9 @@
         font-size: 1.8em;
         color:#fff;
         overflow-y: scroll;
+    }
+    .results-container::-webkit-scrollbar { 
+    display: none; 
     }
     .result{
         border:1px #333333 solid;
@@ -409,6 +412,7 @@
         line-height: 1.2em;
         top: 50%;
         transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
     }
     .result.message{
         border:1px #333333 solid;
@@ -421,6 +425,7 @@
     }
     .services-container{
         top:10px;
+        right:20px;
     }
     .service{
         
