@@ -43,4 +43,6 @@ Temporary Items
 .apdisk
 
 node_modules
-bcmoe.json
+generate/*
+generate.zip
+!generate/generate.py

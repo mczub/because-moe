@@ -1,3 +1,5 @@
+import sys
+sys.path.append("site-packages")
 import requests
 import json
 import re
@@ -100,6 +102,6 @@ sources = [Crunchyroll(), Funimation(), Hulu(), Netflix()]
 for source in sources:
 	source.UpdateShowList(shows)
 shows = sorted(shows, key = lambda show: show['name'].lower())
-out_file = open('./bcmoe.json', 'w')
+out_file = open('../public/bcmoe.json', 'w')
 json.dump(shows, out_file)
 print('done')
