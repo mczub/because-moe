@@ -14,6 +14,16 @@ var bgs = [
 		color: "#FA885C",
 		text: "himouto! umaru-chan"
 	},
+	{
+		cssUrl: "url('./eureka.png')",
+		color: "#A2D0C2",
+		text: "eureka seven"
+	},
+	{
+		cssUrl: "url('./shiro.png')",
+		color: "#713FA4",
+		text: "no game no life"
+	},
 ]
 
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
