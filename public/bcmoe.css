@@ -1,0 +1,475 @@
+.service.na{
+        filter: blur(2px) grayscale(1) opacity(30%);
+        -webkit-filter: blur(2px) grayscale(1) opacity(30%);
+    }
+.service-netflix.na{
+    filter: blur(2px) grayscale(0.8) opacity(100%);
+    -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
+}
+
+@media only screen and (min-width : 0px) {
+    html{
+        width:100%;
+    }
+    body{
+        background-color: #333333;
+        background-size: 200px 200px;
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-attachment: fixed;
+        height: 100%;
+        width: 100%;
+    }
+    .logo-container{
+        height: 100px;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .title{
+        font-family: 'HankenBook'; 
+        font-weight: bold; 
+        font-style: normal; 
+        text-align: left;
+        font-size: 40px;
+        line-height: 40px;
+        color:white;
+        text-align: center;
+        margin: 0px;
+    }
+    .subtitle{
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        text-align: left;
+        font-size: 20px;
+        text-align: center;
+        margin: 0px;
+    }
+    .search-container{
+        text-align: center;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        color:#fff;
+        position: relative;
+        padding: 0 5px;
+    }
+    .search-input{
+        text-align:left;
+        display:block;
+        padding:5px;
+        border: none;
+        border-bottom:1px solid #fff;
+        width:100%;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        background:rgba(0,0,0,0);
+        height: 40px;
+        font-size: 20px;
+        color: #fff;
+        text-transform:lowercase;
+    }
+    .search-input:focus{
+        outline:none;
+        background: rgba(255,255,255,0.2)
+    }
+    .search-clear{
+        width: 40px;
+        height: 40px;
+        vertical-align: center;
+        line-height: 40px;
+        font-size: 1.2em;
+        display:inline-block;
+        position:absolute;
+        right: 5px;
+        top: 0px;
+    }
+    .search-icon{
+        width: 40px;
+        height: 40px;
+        vertical-align: center;
+        line-height: 40px;
+        font-size: 1.2em;
+        display:inline-block;
+        position:absolute;
+        right: 5px;
+        top: 0px;
+    }
+    .glyphicon{
+        line-height: 40px;
+    }
+    
+    .results-container{
+        margin-top:20px;
+        display:inline-block;
+        position: absolute;
+        width: 100%;
+        margin: 0;
+        padding: 0 5px;
+        text-align: left;
+        font-family: 'LinearRegular'; 
+        font-weight: normal; 
+        font-style: normal; 
+        font-size: 1.3em;
+        color:#fff;
+        overflow-y:hidden;
+    }
+    .result{
+        background-color:rgba(66,66,66,0.9);
+        border:1px #333333 solid;
+        margin:2px;
+        padding-left:5px;
+        height:92px;
+        line-height:40px;
+        display:block;       
+        position: relative;
+    }
+    .result.message{
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+    }
+    .result-name{
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 5px;
+        position: absolute;
+        width: 66%;
+        line-height: 1.2em;
+        top: 50%;
+        transform: translateY(-50%);
+        
+    }
+    
+    .services-container{
+        display:inline-block;
+        height:90px;
+        width:90px;
+        position:absolute;
+        right:10px;
+        line-height:30px;
+    }
+    
+    .service{
+        display:inline-block;
+        margin:0px;
+        width:44px;
+        height:44px;
+        background-size:44px 44px;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    
+    .service-crunchyroll{
+        background-image:url("./crunchyroll-800.png");
+    }
+    
+    .service-funimation{
+        background-image:url("./funimation-800.png")
+    }
+    
+    .service-hulu{
+        background-image:url("./hulu-800.png")
+    }
+    
+    .service-netflix{
+        background-image:url("./netflix-800.png")
+    }
+    .footer-container{
+        display: none;
+        margin:3px;
+        position: absolute;
+        bottom: 5px;
+        right: 0px;
+    }
+    
+    .footer-container p{
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        text-align: right;
+        font-size: 1em;
+        color:#fff;
+    }
+}
+
+ @media only screen and (min-width : 768px) {
+     body{
+        background-color: #333333;
+        background-size: 200px 200px;
+    }
+    .title{
+        font-size: 60px;
+        line-height: 60px;
+    }
+    .search-input{
+
+        height: 60px;
+        font-size: 30px;
+    }
+    .search-clear{
+        width: 60px;
+        height: 60px;
+        vertical-align: center;
+        line-height: 60px;
+        font-size: 1.2em;
+        display:inline-block;
+        position:absolute;
+        right: 5px;
+        top: 0px;
+    }
+    .search-icon{
+        width: 60px;
+        height: 60px;
+        vertical-align: center;
+        line-height: 60px;
+        font-size: 1.5em;
+        display:inline-block;
+        position:absolute;
+        right: 5px;
+        top: 0px;
+    }
+    .glyphicon{
+        line-height: 60px;
+    }
+    .results-container{
+        font-size: 1.8em;
+    }
+    .services-container{
+        display:inline-block;
+        height: 60px;
+        width: 240px;
+        top: 15px;
+        position:absolute;
+        right:10px;
+        line-height:60px;
+    }
+    .service{
+        display:inline-block;
+        margin: auto;
+        top: 50%;
+        width:60px;
+        height:60px;
+        background-size:60px 60px;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    
+}
+
+
+@media only screen and (min-width : 1200px) {
+    
+    body{
+        background-color: #333333;
+        /*background-image:url('./madoka.png');*/
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size:400px 400px;
+        height: 100%;
+        overflow-y: hidden;
+    }
+    .logo-container{
+        position:fixed;
+        top: 30px;
+        left: 30px;
+        width: 400px;
+    }
+    
+    .title { 
+        font-family: 'HankenBook'; 
+        font-weight: bold; 
+        font-style: normal; 
+        text-align: left;
+        font-size: 4em;
+        color:white;
+        margin:0px;
+
+    }
+    .subtitle { 
+        margin:0px;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        text-align: left;
+        font-size: 1.5em;
+        color:#2DBC5F;
+        /*color:#E48397;*/
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    p{
+        margin:3px;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        text-align: center;
+        font-size: 2em;
+        color:#fff;
+    }
+    .search-container{
+        text-align: center;
+        left: 400px;
+        top: 30px;
+        width: 768px;
+        padding: 16px;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        color:#fff;
+    }
+    
+    .search-input{
+        text-align:left;
+        display:block;
+        margin:0 auto;
+        padding: 0 20px;
+        border: none;
+        border-bottom:1px solid #fff;
+        width:100%;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        background:rgba(0,0,0,0);
+        height: 80px;
+        font-size: 3em;
+        color: #fff;
+        text-transform:lowercase;
+    }
+    .search-input:focus{
+        outline:none;
+        background: rgba(255,255,255,0.2)
+    }
+    .search-clear{
+        width: 80px;
+        height: 80px;
+        vertical-align: center;
+        line-height:80px;
+        font-size: 3em;
+        display:inline-block;
+        position:absolute;
+        right: 16px;
+        top: 16px;
+    }
+    .search-icon{
+        width: 80px;
+        height: 80px;
+        line-height:80px;
+        font-size: 3em;
+        display:inline-block;
+        position:absolute;
+        right: 16px;
+        top: 16px;
+    }
+    .glyphicon{
+        line-height:80px;
+    }
+    .results-meta {
+        
+        display:inline-block;
+        position: absolute;
+        width: 750px;
+        height: calc(100% - 220px);
+        margin-top:16px;
+        left: 400px;
+        overflow: hidden;
+    }
+    .results-container{
+        position: absolute;
+        width: 750px;
+        height: 100%;   
+        text-align: left;
+        left: 18px;
+        padding: 0;
+        font-family: 'LinearRegular'; 
+        font-weight: normal; 
+        font-style: normal; 
+        font-size: 1.8em;
+        color:#fff;
+        overflow-y: scroll;
+    }
+    .result{
+        border:1px #333333 solid;
+        margin:0px;
+        padding:20px;
+        height:80px;
+        line-height:60px;
+        display:block;
+        
+    }
+    .result-name{
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 5px;
+        position: absolute;
+        width: 450px;
+        line-height: 1.2em;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .result.message{
+        border:1px #333333 solid;
+        margin:0px;
+        text-align:center;
+        padding: 0;
+        height:60px;
+        line-height:60px;
+        text-transform:uppercase;
+    }
+    .services-container{
+        top:10px;
+    }
+    .service{
+        
+    }
+    
+    .service-crunchyroll{
+        background-image:url("./crunchyroll-800.png");
+    }
+    
+    .service-funimation{
+        background-image:url("./funimation-800.png")
+    }
+    
+    .service-hulu{
+        background-image:url("./hulu-800.png")
+    }
+    
+    .service-netflix{
+        background-image:url("./netflix-800.png")
+    }
+    .service.na{
+        filter: blur(2px) grayscale(1) opacity(30%);
+        -webkit-filter: blur(2px) grayscale(1) opacity(30%);
+    }
+    .service-netflix.na{
+        filter: blur(2px) grayscale(0.8) opacity(100%);
+        -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
+    }
+    
+    .footer-container{
+        display: inline-block;
+        margin:3px;
+        position: fixed;
+        bottom: 20px;
+        left: 420px;
+        width: 734px;
+    }
+    
+    .footer-container p{
+        display: block;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        text-align: right;
+        font-size: 1.2em;
+        color:#fff;
+    }
+}
+
+
+
+
