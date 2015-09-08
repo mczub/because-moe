@@ -129,6 +129,7 @@
         text-align: center;
         height: 60px;
         line-height: 60px;
+        text-transform:uppercase;
     }
     .result-name{
         margin-top: auto;
@@ -216,14 +217,17 @@
  @media only screen and (min-width : 768px) {
      body{
         background-color: #333333;
-        background-size: 200px 200px;
+        background-size: 300px 300px;
     }
     .title{
         font-size: 60px;
         line-height: 60px;
     }
+    .search-container{
+        padding: 0 40px;
+    }
     .search-input{
-
+        padding: 0 10px;
         height: 60px;
         font-size: 30px;
     }
@@ -235,7 +239,7 @@
         font-size: 1.2em;
         display:inline-block;
         position:absolute;
-        right: 5px;
+        right: 45px;
         top: 0px;
     }
     .search-icon{
@@ -246,7 +250,7 @@
         font-size: 1.5em;
         display:inline-block;
         position:absolute;
-        right: 5px;
+        right: 45px;
         top: 0px;
     }
     .glyphicon{
@@ -257,12 +261,21 @@
     }
     .results-container{
         font-size: 1.8em;
+        padding: 0 40px;
     }
     .result{
         border:1px #333333 solid;
         margin:0px;
         padding:10px;
         height:80px;
+        line-height:60px;
+        display:block;
+    }
+    .result.message{
+        border:1px #333333 solid;
+        margin:0px;
+        padding:0px;
+        height:60px;
         line-height:60px;
         display:block;
     }
@@ -285,7 +298,12 @@
         background-position: center center;
         background-repeat: no-repeat;
     }
-    
+    .footer-container{
+        position:relative;
+        width: 100%;
+        height: auto;
+        padding:10px 45px;
+    }
 }
 
 
@@ -504,7 +522,7 @@
         margin: 2px;
     }
 }
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width : 767px) {
     .mobile-hide{
         display:none;
     }
