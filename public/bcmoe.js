@@ -67,19 +67,19 @@ $(document).ready(function(){
 				resultHtml += "<div class='services-container'>";
 				
 				if (show.sites.crunchyroll){
-					resultHtml += "<a href='" + show.sites.crunchyroll + "'><div class='service service-crunchyroll'></div></a>"
+					resultHtml += "<a href='" + show.sites.crunchyroll + "' target='_blank'><div class='service service-crunchyroll'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-crunchyroll na'></div>"
 				}
 				
 				if (show.sites.funimation){
-					resultHtml += "<a href='" + show.sites.funimation + "'><div class='service service-funimation'></div></a>"
+					resultHtml += "<a href='" + show.sites.funimation + "' target='_blank'><div class='service service-funimation'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-funimation na'></div>"
 				}
 				
 				if (show.sites.hulu){
-					resultHtml += "<a href='" + show.sites.hulu + "'><div class='service service-hulu'></div></a>"
+					resultHtml += "<a href='" + show.sites.hulu + "' target='_blank'><div class='service service-hulu'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-hulu na'></div>"
 				}
