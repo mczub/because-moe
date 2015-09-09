@@ -113,11 +113,12 @@ class Daisuki(AnimeSource):
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
 			#print(show)
+			url = "http://www.daisuki.net/anime/detail/" + show['ad_id']
 			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['title'])), False)
 			if (match_index):
-				shows[match_index]['sites']['daisuki'] = True
+				shows[match_index]['sites']['daisuki'] = url
 			else:
-				show_obj = {'name': show['title'], 'sites': {'daisuki': True}}
+				show_obj = {'name': show['title'], 'sites': {'daisuki': url}}
 				showList.append(show_obj)
 
 		return shows

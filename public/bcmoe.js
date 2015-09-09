@@ -111,7 +111,7 @@ $(document).ready(function(){
 				}
 				
 				if (show.sites.daisuki){
-					resultHtml += "<div class='service service-daisuki'></div></a>"
+					resultHtml += "<a href='" + show.sites.daisuki + "' target='_blank'><div class='service service-daisuki'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-daisuki na'></div>"
 				}
