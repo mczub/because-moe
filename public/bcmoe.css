@@ -1,7 +1,7 @@
 .service.na{
-        filter: blur(2px) grayscale(1) opacity(30%);
-        -webkit-filter: blur(2px) grayscale(1) opacity(30%);
-    }
+        filter: blur(2px) grayscale(0.8) opacity(30%);
+        -webkit-filter: blur(2px) grayscale(0.8) opacity(30%);
+}
 .service-netflix.na{
     filter: blur(2px) grayscale(0.8) opacity(100%);
     -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
@@ -166,11 +166,16 @@
     
     .services-container{
         display:inline-block;
-        height:90px;
-        width:144px;
+        text-align:right;
+        margin-top:auto;
+        margin-bottom:auto;
+        width:50%;
         position:absolute;
         right:4px;
         line-height:44px;
+         top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
     }
     
     .service{
@@ -286,15 +291,14 @@
         line-height:60px;
         display:block;
     }
-    .services-container{
+    /*.services-container{
         display:inline-block;
-        height: 90px;
         width: 144px;
         top: 2px;
         position:absolute;
         right:2px;
         line-height:44px;
-    }
+    }*/
     .service{
         display:inline-block;
         margin: 0px 2px;
@@ -444,7 +448,7 @@
         margin-bottom: auto;
         margin-left: 5px;
         position: absolute;
-        width: 450px;
+        width: 50%;
         line-height: 1.2em;
         top: 50%;
         transform: translateY(-50%);
@@ -460,7 +464,7 @@
         text-transform:uppercase;
     }
     .services-container{
-        top:2px;
+        
         right:20px;
     }
     .service{
