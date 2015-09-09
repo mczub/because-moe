@@ -40,7 +40,6 @@ $(document).on('click', '.service:not(na)', function(e){
 	var show = $(this).parents('.result').children('.result-name').text()
 	var service = $(this).attr('service')
 	var searchTerm = $('.search-input').val()
-	console.log('send', 'event', service, show, searchTerm)
 	ga('send', 'event', service, show, searchTerm)
 })
 
@@ -127,7 +126,7 @@ $(document).ready(function(){
 				$('.results-container').append(resultHtml);
 			})
 		}
-		console.log(showList);
+		//console.log(showList);
 	}
 	$('.search-clear').on('click', function(){
 		$('.search-input').val('');
