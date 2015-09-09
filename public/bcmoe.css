@@ -177,6 +177,11 @@
     .service-netflix{
         background-image:url("./netflix-800.png")
     }
+    
+    .service-daisuki{
+        background-image:url("./daisuki-800.png")
+    }
+    
     .footer-container{
         position:relative;
         width: 100%;
@@ -474,6 +479,10 @@
     
     .service-netflix{
         background-image:url("./netflix-800.png")
+    }
+
+    .service-daisuki{
+        background-image:url("./daisuki-800.png")
     }
     .service.na{
         filter: blur(2px) grayscale(1) opacity(30%);
