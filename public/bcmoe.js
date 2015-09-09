@@ -45,7 +45,7 @@ $(document).on('click', '.service:not(na)', function(e){
 
 $(document).ready(function(){
 	var showshound = {}
-	
+	$('.search-input').focus()
 	$.getJSON("./bcmoe.json", function(data){
 		shows = data
 		setup()
