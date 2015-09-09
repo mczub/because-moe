@@ -6,12 +6,9 @@ import re
 from abc import ABCMeta, abstractmethod
 import string
 from unidecode import unidecode
-from urllib import parse
 
 transtable = {ord(c): None for c in string.punctuation}
 def compare(first, second):
-	#print(first)
-	#print(second)
 	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == unidecode(second.lower()).translate(transtable).replace('  ', ' ')
 
 class AnimeSource(object):
@@ -106,33 +103,8 @@ class Netflix(AnimeSource):
 		regex = "<span class=\"mg_overlay_tit\">([^\"]*) \([0-9-]*\)</span>"
 		return re.findall(regex, blob.text)
 		
-class Viewster(AnimeSource):
-	def __init(self):
-		self.__shows = []
-	def UpdateShowList(self, showList):
-		self.__shows = self.__GetData()
-		transtable = {ord(c): None for c in string.punctuation}
-		for show in self.__shows:
-			#print(show)
-			url = "https://www.viewster.com/serie/" + show['OriginId']
-			if (type(show['Title']) is str):
-				match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['Title'])), False)
-			if (match_index):
-				shows[match_index]['sites']['viewster'] = url
-			else:
-				show_obj = {'name': show['Title'], 'sites': {'viewster': url}}
-				showList.append(show_obj)
-		return shows
-	def __GetData(self):
-		api_blob = requests.get('https://www.viewster.com/')
-		api_token = api_blob.cookies['api_token']
-		headers = {'Auth-token': parse.unquote(api_token)}
-		anime_blob = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=1&genreId=58', headers = headers)
-		return json.loads(anime_blob.text)['Items']
-		#return re.findall(regex, blob.text)
-		
 shows = []
-sources = [Crunchyroll(), Funimation(), Hulu(), Netflix(), Viewster()]
+sources = [Crunchyroll(), Funimation(), Hulu(), Netflix()]
 for source in sources:
 	source.UpdateShowList(shows)
 shows = sorted(shows, key = lambda show: show['name'].lower())
