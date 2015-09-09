@@ -36,6 +36,13 @@ var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", 
 var providers = ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"]
 var shows = []
 var highlights = []
+$(document).on('click', '.service:not(na)', function(e){
+	var show = $(this).parents('.result').children('.result-name').text()
+	var service = $(this).attr('service')
+	var searchTerm = $('.search-input').val()
+	console.log('send', 'event', service, show, searchTerm)
+	ga('send', 'event', service, show, searchTerm)
+})
 
 $(document).ready(function(){
 	var showshound = {}
@@ -82,36 +89,36 @@ $(document).ready(function(){
 				resultHtml += "<div class='services-container'>";
 				
 				if (show.sites.crunchyroll){
-					resultHtml += "<a href='" + show.sites.crunchyroll + "' target='_blank'><div class='service service-crunchyroll'></div></a>"
+					resultHtml += "<a href='" + show.sites.crunchyroll + "' target='_blank'><div class='service service-crunchyroll' service='crunchyroll'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-crunchyroll na'></div>"
 				}
 				
 				if (show.sites.funimation){
-					resultHtml += "<a href='" + show.sites.funimation + "' target='_blank'><div class='service service-funimation'></div></a>"
+					resultHtml += "<a href='" + show.sites.funimation + "' target='_blank'><div class='service service-funimation' service='funimation'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-funimation na'></div>"
 				}
 				
 				if (show.sites.hulu){
-					resultHtml += "<a href='" + show.sites.hulu + "' target='_blank'><div class='service service-hulu'></div></a>"
+					resultHtml += "<a href='" + show.sites.hulu + "' target='_blank'><div class='service service-hulu' service='hulu'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-hulu na'></div>"
 				}
 				
 				if (show.sites.netflix){
-					resultHtml += "<div class='service service-netflix'></div></a>"
+					resultHtml += "<div class='service service-netflix' service='netflix'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-netflix na'></div>"
 				}
 				if (show.sites.viewster){
-					resultHtml += "<a href='" + show.sites.viewster + "' target='_blank'><div class='service service-viewster'></div></a>"
+					resultHtml += "<a href='" + show.sites.viewster + "' target='_blank'><div class='service service-viewster' service='viewster'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-viewster na'></div>"
 				}
 				
 				if (show.sites.daisuki){
-					resultHtml += "<a href='" + show.sites.daisuki + "' target='_blank'><div class='service service-daisuki'></div></a>"
+					resultHtml += "<a href='" + show.sites.daisuki + "' target='_blank'><div class='service service-daisuki' service='daisuki'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-daisuki na'></div>"
 				}
