@@ -33,7 +33,7 @@ var bgs = [
 
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
 	"rokka -braves of the six flowers-", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
-var providers = ["crunchyroll", "funimation", "hulu", "netflix"]
+var providers = ["crunchyroll", "funimation", "hulu", "netflix", "viewster"]
 var shows = []
 var highlights = []
 
@@ -103,6 +103,12 @@ $(document).ready(function(){
 					resultHtml += "<div class='service service-netflix'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-netflix na'></div>"
+				}
+				
+				if (show.sites.viewster){
+					resultHtml += "<a href='" + show.sites.viewster + "' target='_blank'><div class='service service-viewster'></div></a>"
+				} else {
+					resultHtml += "<div class='service service-viewster na'></div>"
 				}
 				
 				resultHtml += "</div></div>"
