@@ -6,6 +6,27 @@
     filter: blur(2px) grayscale(0.8) opacity(100%);
     -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
 }
+.service-crunchyroll{
+    background-image:url("./crunchyroll-800.png");
+}
+
+.service-funimation{
+    background-image:url("./funimation-800.png")
+}
+
+.service-hulu{
+    background-image:url("./hulu-800.png")
+}
+
+.service-netflix{
+    background-image:url("./netflix-800.png")
+}
+.service-viewster{
+    background-image:url("./viewster-800.png")
+}
+.service-daisuki{
+    background-image:url("./daisuki-800.png")
+}
 
 @media only screen and (min-width : 0px) {
     html{
@@ -136,7 +157,7 @@
         margin-bottom: auto;
         margin-left: 5px;
         position: absolute;
-        width: 66%;
+        width: 50%;
         line-height: 1.2em;
         top: 50%;
         transform: translateY(-50%);
@@ -146,15 +167,15 @@
     .services-container{
         display:inline-block;
         height:90px;
-        width:90px;
+        width:144px;
         position:absolute;
-        right:10px;
-        line-height:30px;
+        right:4px;
+        line-height:44px;
     }
     
     .service{
         display:inline-block;
-        margin:0px;
+        margin:0px 2px;
         width:44px;
         height:44px;
         background-size:44px 44px;
@@ -162,21 +183,7 @@
         background-repeat: no-repeat;
     }
     
-    .service-crunchyroll{
-        background-image:url("./crunchyroll-800.png");
-    }
     
-    .service-funimation{
-        background-image:url("./funimation-800.png")
-    }
-    
-    .service-hulu{
-        background-image:url("./hulu-800.png")
-    }
-    
-    .service-netflix{
-        background-image:url("./netflix-800.png")
-    }
     .footer-container{
         position:relative;
         width: 100%;
@@ -266,9 +273,9 @@
     .result{
         border:1px #333333 solid;
         margin:0px;
-        padding:10px;
-        height:80px;
-        line-height:60px;
+        padding:2px;
+        height:92px;
+        line-height:92px;
         display:block;
     }
     .result.message{
@@ -281,20 +288,20 @@
     }
     .services-container{
         display:inline-block;
-        height: 60px;
-        width: 240px;
-        top: 10px;
+        height: 90px;
+        width: 144px;
+        top: 2px;
         position:absolute;
-        right:10px;
-        line-height:60px;
+        right:2px;
+        line-height:44px;
     }
     .service{
         display:inline-block;
-        margin: auto;
+        margin: 0px 2px;
         top: 50%;
-        width:60px;
-        height:60px;
-        background-size:60px 60px;
+        width:44px;
+        height:44px;
+        background-size:44px 44px;
         background-position: center center;
         background-repeat: no-repeat;
     }
@@ -427,9 +434,9 @@
     .result{
         border:1px #333333 solid;
         margin:0px;
-        padding:20px;
-        height:80px;
-        line-height:60px;
+        padding:2px 20px;
+        height:92px;
+        line-height:44px;
         display:block;
     }
     .result-name{
@@ -453,37 +460,13 @@
         text-transform:uppercase;
     }
     .services-container{
-        top:10px;
+        top:2px;
         right:20px;
     }
     .service{
         
     }
-    
-    .service-crunchyroll{
-        background-image:url("./crunchyroll-800.png");
-    }
-    
-    .service-funimation{
-        background-image:url("./funimation-800.png")
-    }
-    
-    .service-hulu{
-        background-image:url("./hulu-800.png")
-    }
-    
-    .service-netflix{
-        background-image:url("./netflix-800.png")
-    }
-    .service.na{
-        filter: blur(2px) grayscale(1) opacity(30%);
-        -webkit-filter: blur(2px) grayscale(1) opacity(30%);
-    }
-    .service-netflix.na{
-        filter: blur(2px) grayscale(0.8) opacity(100%);
-        -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
-    }
-    
+   
     .footer-container{
         display: inline-block;
         margin:3px;
@@ -527,7 +510,6 @@
         display:none;
     }
 }
-
 
 
 
