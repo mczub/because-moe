@@ -36,7 +36,7 @@ var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", 
 var providers = ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"]
 var shows = []
 var highlights = []
-$(document).on('click', '.service:not(na)', function(e){
+$(document).on('click', '.service:not(.na)', function(e){
 	var show = $(this).parents('.result').children('.result-name').text()
 	var service = $(this).attr('service')
 	var searchTerm = $('.search-input').val()
