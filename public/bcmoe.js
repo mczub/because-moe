@@ -1,31 +1,31 @@
 var bgs = [
 	{
-		cssUrl: "url('./kotori.png')",
+		cssUrl: "url('./assets/kotori.png')",
 		color: "#2DBC5F",
 		text: "love live! school idol project"
 	},
 	{
-		cssUrl: "url('./madoka.png')",
+		cssUrl: "url('./assets/madoka.png')",
 		color: "#E48397",
 		text: "puella magi madoka magica"
 	},
 	{
-		cssUrl: "url('./umaru.png')",
+		cssUrl: "url('./assets/umaru.png')",
 		color: "#FA885C",
 		text: "himouto! umaru-chan"
 	},
 	{
-		cssUrl: "url('./eureka.png')",
+		cssUrl: "url('./assets/eureka.png')",
 		color: "#A2D0C2",
 		text: "eureka seven"
 	},
 	{
-		cssUrl: "url('./shiro.png')",
+		cssUrl: "url('./assets/shiro.png')",
 		color: "#713FA4",
 		text: "no game no life"
 	},
 	{
-		cssUrl: "url('./rin.png')",
+		cssUrl: "url('./assets/rin.png')",
 		color: "#B20B36",
 		text: "fate/stay night"
 	},
@@ -33,7 +33,14 @@ var bgs = [
 
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
 	"rokka -braves of the six flowers-", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
-var providers = ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"]
+var providers = {
+	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"], 
+	'uk': ["crunchyroll", "funimation", "viewster", "daisuki"]
+}
+var jsons = {
+	'us': './assets/us.json',
+	'uk': './assets/uk.json'
+}
 var shows = []
 var highlights = []
 $(document).on('click', '.service:not(.na)', function(e){
@@ -46,7 +53,7 @@ $(document).on('click', '.service:not(.na)', function(e){
 $(document).ready(function(){
 	var showshound = {}
 	$('.search-input').focus()
-	$.getJSON("./bcmoe.json", function(data){
+	$.getJSON(jsons[region], function(data){
 		shows = data
 		setup()
 	})
@@ -86,8 +93,15 @@ $(document).ready(function(){
 				var resultHtml = "<div class='result'><div class='result-name'>" + show.name + "</div>";
 				var sites = Object.keys(show.sites);
 				resultHtml += "<div class='services-container'>";
-				
-				if (show.sites.crunchyroll){
+				providers[region].forEach(function(provider){
+					if (show.sites[provider]){
+						resultHtml += "<a href='" + show.sites[provider] + "' target='_blank'><div class='service service-" + provider + "' service='" + provider + "'></div></a>"
+						console.log(resultHtml)
+					} else {
+						resultHtml += "<div class='service service-" + provider + " na'></div>"
+					}
+				})
+				/*if (show.sites.crunchyroll){
 					resultHtml += "<a href='" + show.sites.crunchyroll + "' target='_blank'><div class='service service-crunchyroll' service='crunchyroll'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-crunchyroll na'></div>"
@@ -120,7 +134,7 @@ $(document).ready(function(){
 					resultHtml += "<a href='" + show.sites.daisuki + "' target='_blank'><div class='service service-daisuki' service='daisuki'></div></a>"
 				} else {
 					resultHtml += "<div class='service service-daisuki na'></div>"
-				}
+				}*/
 				
 				resultHtml += "</div></div>"
 				$('.results-container').append(resultHtml);
@@ -142,12 +156,12 @@ $(document).ready(function(){
 			$('.search-icon').show()
 			$('.search-clear').hide()
 			updateShowList(highlights)
-		} else if (providers.indexOf($('.search-input').val().toLowerCase()) > -1){ 
+		} else if (providers[region].indexOf($('.search-input').val().toLowerCase()) > -1){ 
 			$('.search-icon').hide()
 			$('.search-clear').show()
-			var providerIndex = providers.indexOf($('.search-input').val().toLowerCase());
+			var providerIndex = providers[region].indexOf($('.search-input').val().toLowerCase());
 			updateShowList(shows.filter(function(show){
-				return providers[providerIndex] in show['sites']
+				return providers[region][providerIndex] in show['sites']
 			}))
 		} else {
 			$('.search-icon').hide()

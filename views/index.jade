@@ -1,0 +1,41 @@
+link(rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/hanken" type="text/css")
+link(rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/linear-regular" type="text/css")
+link(rel="stylesheet" media="screen" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" type="text/css")
+link(rel="stylesheet" media="screen" href="./assets/bcmoe.css" type="text/css")
+script(type='text/javascript').
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-67306014-1', 'auto');
+	ga('send', 'pageview');
+
+script(type='text/javascript').
+	var region =!{JSON.stringify(region)}
+	console.log(region)
+script(src="https://code.jquery.com/jquery-2.1.4.min.js")
+script(src="http://twitter.github.com/typeahead.js/releases/latest/typeahead.bundle.min.js")
+script(src="./assets/bcmoe.js")
+meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+html
+	head
+		title BECAUSE.MOE - anime streaming search engine
+	body
+		.logo-container
+			h2.title because.moe
+			h4.subtitle anime streaming search engine
+		.search-container
+			input(type="text" class="search-input" placeholder="love live! school idol project")
+			.search-clear
+				span(class="glyphicon glyphicon-remove")
+			.search-icon
+				span(class="glyphicon glyphicon-search")
+		.results-container
+		.footer-container
+			.footer-left
+				p Streaming may only be available in the US
+				p.mobile-hide See something wrong? #[a(href="http://goo.gl/forms/honnymv12Y" target='_blank') Let me know!]
+			.footer-right
+				p.mobile-hide Created by #[a(href="http://twitter.com/mczub" target='_blank') @mczub]
+				p.mobile-hide Fork this project on #[a(href="https://github.com/mczub/because-moe" target='_blank') GitHub]

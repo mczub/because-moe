@@ -45,4 +45,4 @@ Temporary Items
 node_modules
 generate/*
 generate.zip
-!generate/generate.py
+!generate/*.py
