@@ -55,6 +55,8 @@ $(document).on('click', '.service:not(.na)', function(e){
 $(document).ready(function(){
 	var showshound = {}
 	$('.search-input').focus()
+	$('.' + region).removeClass('no')
+	console.log(region)
 	$.getJSON(jsons[region], function(data){
 		shows = data
 		setup()

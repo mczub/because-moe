@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.13.3",
+    "flag-icon-css": "^0.8.2",
     "jade": "^1.11.0"
   },
   "devDependencies": {},

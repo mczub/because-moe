@@ -20,6 +20,10 @@
     filter: blur(2px) grayscale(0.8) opacity(100%);
     -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
 }
+img.no{
+    filter: blur(1px) grayscale(0.9) opacity(100%);
+    -webkit-filter: blur(1px) grayscale(0.9) opacity(100%);
+}
 .service-crunchyroll{
     background-image:url("./services/crunchyroll-800.png");
 }
@@ -55,7 +59,7 @@
         width: 100%;
     }
     .logo-container{
-        height: 100px;
+        height: 90px;
         top: 0;
         width: 100%;
         text-align: center;
@@ -81,6 +85,23 @@
         text-align: center;
         margin: 0px;
     }
+    .regions-container{
+        background-color:rgba(66,66,66,0.9);
+        border:1px #333333 solid;
+        text-align:center;
+        margin: 5px;
+    }
+    a.region-flag{
+        display: inline;
+        width: 44px;
+        height: 44px;
+        margin: 2px 10px;
+    }
+    .region-flag img{
+        width: 44px;
+        height: 44px;
+    }
+    
     .search-container{
         text-align: center;
         font-family: 'HankenBook'; 
@@ -88,7 +109,8 @@
         font-style: normal; 
         color:#fff;
         position: relative;
-        padding: 0 5px;
+        margin-top: 0px;
+        padding: 5px 5px;
     }
     .search-input{
         text-align:left;
@@ -249,6 +271,7 @@
         font-size: 60px;
         line-height: 60px;
     }
+    
     .search-container{
         padding: 0 40px;
     }
@@ -292,7 +315,7 @@
     .result{
         border:1px #333333 solid;
         margin:0px;
-        padding:2px;
+        padding:2px 10px;
         height:92px;
         line-height:92px;
         display:block;
@@ -327,7 +350,10 @@
         position:relative;
         width: 100%;
         height: auto;
-        padding:10px 45px;
+        padding:10px 40px;
+    }
+    .regions-container{
+        margin: 4px;
     }
 }
 
@@ -521,6 +547,12 @@
     .footer-container p{
         font-size: 1em;
         margin: 2px;
+    }
+    .regions-container{
+        position: fixed;
+        width: 350px;
+        left: 25px;
+        top: 150px;
     }
 }
 @media only screen and (max-width : 767px) {
