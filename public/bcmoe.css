@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'HankenBook';
+        src: url('/fonts/Hanken-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LinearRegular';
+        src: url('/fonts/LinearRegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .service.na{
         filter: blur(2px) grayscale(0.8) opacity(30%);
         -webkit-filter: blur(2px) grayscale(0.8) opacity(30%);
@@ -7,25 +21,25 @@
     -webkit-filter: blur(2px) grayscale(0.8) opacity(100%);
 }
 .service-crunchyroll{
-    background-image:url("./crunchyroll-800.png");
+    background-image:url("./services/crunchyroll-800.png");
 }
 
 .service-funimation{
-    background-image:url("./funimation-800.png")
+    background-image:url("./services/funimation-800.png")
 }
 
 .service-hulu{
-    background-image:url("./hulu-800.png")
+    background-image:url("./services/hulu-800.png")
 }
 
 .service-netflix{
-    background-image:url("./netflix-800.png")
+    background-image:url("./services/netflix-800.png")
 }
 .service-viewster{
-    background-image:url("./viewster-800.png")
+    background-image:url("./services/viewster-800.png")
 }
 .service-daisuki{
-    background-image:url("./daisuki-800.png")
+    background-image:url("./services/daisuki-800.png")
 }
 
 @media only screen and (min-width : 0px) {

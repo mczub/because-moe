@@ -137,6 +137,6 @@ sources = [Crunchyroll(), Funimation(), Daisuki(), Viewster()]
 for source in sources:
 	source.UpdateShowList(shows)
 shows = sorted(shows, key = lambda show: show['name'].lower())
-out_file = open('../public/uk.json', 'w')
+out_file = open('../public/data/uk.json', 'w')
 json.dump(shows, out_file)
 print('done')

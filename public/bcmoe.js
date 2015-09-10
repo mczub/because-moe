@@ -1,31 +1,31 @@
 var bgs = [
 	{
-		cssUrl: "url('./assets/kotori.png')",
+		cssUrl: "url('./bg/kotori.png')",
 		color: "#2DBC5F",
 		text: "love live! school idol project"
 	},
 	{
-		cssUrl: "url('./assets/madoka.png')",
+		cssUrl: "url('./bg/madoka.png')",
 		color: "#E48397",
 		text: "puella magi madoka magica"
 	},
 	{
-		cssUrl: "url('./assets/umaru.png')",
+		cssUrl: "url('./bg/umaru.png')",
 		color: "#FA885C",
 		text: "himouto! umaru-chan"
 	},
 	{
-		cssUrl: "url('./assets/eureka.png')",
+		cssUrl: "url('./bg/eureka.png')",
 		color: "#A2D0C2",
 		text: "eureka seven"
 	},
 	{
-		cssUrl: "url('./assets/shiro.png')",
+		cssUrl: "url('./bg/shiro.png')",
 		color: "#713FA4",
 		text: "no game no life"
 	},
 	{
-		cssUrl: "url('./assets/rin.png')",
+		cssUrl: "url('./bg/rin.png')",
 		color: "#B20B36",
 		text: "fate/stay night"
 	},
@@ -35,11 +35,13 @@ var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", 
 	"rokka -braves of the six flowers-", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"], 
+	'ca': ["crunchyroll", "funimation", "viewster", "daisuki"], 
 	'uk': ["crunchyroll", "funimation", "viewster", "daisuki"]
 }
 var jsons = {
-	'us': './assets/us.json',
-	'uk': './assets/uk.json'
+	'us': './data/us.json',
+	'ca': './data/ca.json',
+	'uk': './data/uk.json'
 }
 var shows = []
 var highlights = []
@@ -95,47 +97,17 @@ $(document).ready(function(){
 				resultHtml += "<div class='services-container'>";
 				providers[region].forEach(function(provider){
 					if (show.sites[provider]){
-						resultHtml += "<a href='" + show.sites[provider] + "' target='_blank'><div class='service service-" + provider + "' service='" + provider + "'></div></a>"
-						console.log(resultHtml)
+						if (typeof show.sites[provider] === 'string' || show.sites[provider] instanceof String){
+							resultHtml += "<a href='" + show.sites[provider] + "' target='_blank'><div class='service service-" + provider + "' service='" + provider + "'></div></a>"
+						} else {
+							resultHtml += "<div class='service service-" + provider + "' service='" + provider + "'></div>"
+						}
+						
 					} else {
 						resultHtml += "<div class='service service-" + provider + " na'></div>"
 					}
 				})
-				/*if (show.sites.crunchyroll){
-					resultHtml += "<a href='" + show.sites.crunchyroll + "' target='_blank'><div class='service service-crunchyroll' service='crunchyroll'></div></a>"
-				} else {
-					resultHtml += "<div class='service service-crunchyroll na'></div>"
-				}
-				
-				if (show.sites.funimation){
-					resultHtml += "<a href='" + show.sites.funimation + "' target='_blank'><div class='service service-funimation' service='funimation'></div></a>"
-				} else {
-					resultHtml += "<div class='service service-funimation na'></div>"
-				}
-				
-				if (show.sites.hulu){
-					resultHtml += "<a href='" + show.sites.hulu + "' target='_blank'><div class='service service-hulu' service='hulu'></div></a>"
-				} else {
-					resultHtml += "<div class='service service-hulu na'></div>"
-				}
-				
-				if (show.sites.netflix){
-					resultHtml += "<div class='service service-netflix' service='netflix'></div></a>"
-				} else {
-					resultHtml += "<div class='service service-netflix na'></div>"
-				}
-				if (show.sites.viewster){
-					resultHtml += "<a href='" + show.sites.viewster + "' target='_blank'><div class='service service-viewster' service='viewster'></div></a>"
-				} else {
-					resultHtml += "<div class='service service-viewster na'></div>"
-				}
-				
-				if (show.sites.daisuki){
-					resultHtml += "<a href='" + show.sites.daisuki + "' target='_blank'><div class='service service-daisuki' service='daisuki'></div></a>"
-				} else {
-					resultHtml += "<div class='service service-daisuki na'></div>"
-				}*/
-				
+							
 				resultHtml += "</div></div>"
 				$('.results-container').append(resultHtml);
 			})
