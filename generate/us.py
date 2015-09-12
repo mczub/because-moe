@@ -91,18 +91,27 @@ class Netflix(AnimeSource):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show['show']['name'])
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show)), False)
+			#print(show)
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[1].strip())), False)
 			if (match_index):
-				shows[match_index]['sites']['netflix'] = True
+				shows[match_index]['sites']['netflix'] = "http://www.netflix.com/title/" + show[0]
 			else:
-				show_obj = {'name': show, 'sites': {'netflix': True}}
+				show_obj = {'name': show[1].strip(), 'sites': {'netflix': "http://www.netflix.com/title/" + show[0]}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
-		blob = requests.get('http://animeonnetflix.com/anime-shows-on-netflix/')
-		regex = "<span class=\"mg_overlay_tit\">([^\"]*) \([0-9-]*\)</span>"
-		return re.findall(regex, blob.text)
+		unogsSession = requests.Session()
+		getCgiUrlBlob = unogsSession.get('http://unogs.com/search')
+		getCgiUrlRegex = 'var cgiurl=\'([^\&"]*)\';'
+		
+		cgiUrl = re.findall(getCgiUrlRegex, getCgiUrlBlob.text)[0]
+		headers = {
+			'Referer': 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&cl=78,&st=adv&ob=Relevance',
+			'Accept': 'application/json, text/javascript, */*; q=0.01'
+		}
+		dataBlob = unogsSession.get('http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&t=ns&cl=78,&st=adv&ob=Relevance', headers = headers)
+		return json.loads(dataBlob.text)["ITEMS"]
+		
 		
 class Daisuki(AnimeSource):
 	def __init(self):
@@ -155,6 +164,7 @@ shows = []
 sources = [Crunchyroll(), Funimation(), Hulu(), Netflix(), Daisuki(), Viewster()]
 for source in sources:
 	source.UpdateShowList(shows)
+	print('200')
 shows = sorted(shows, key = lambda show: show['name'].lower())
 out_file = open('../public/data/us.json', 'w')
 json.dump(shows, out_file)
