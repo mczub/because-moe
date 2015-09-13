@@ -10,11 +10,6 @@ from urllib import parse
 
 transtable = {ord(c): None for c in string.punctuation}
 
-proxies = {
-  "http": "http://128.199.179.154:80",
-  "https": "http://128.199.179.154:80",
-} 
-
 def compare(first, second):
 	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == unidecode(second.lower()).translate(transtable).replace('  ', ' ')
 
@@ -28,55 +23,43 @@ class AnimeSource(object):
 class Crunchyroll(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
-		self.__shows = self.__GetData()
+		self.__name = "Crunchyroll"
+	def UpdateShowList(self, showList, titleMap, proxy):
+		self.__shows = self.__GetData(proxy)
 		for show in self.__shows:
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[0])), False)
+			showName = show[0]
+			showUrl = "http://www.crunchyroll.com" + show[1]
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['crunchyroll'] = "http://www.crunchyroll.com" + show[1]
+				shows[match_index]['sites']['crunchyroll'] = showUrl
 			else:
-				show_obj = {'name': show[0], 'sites': {'crunchyroll': "http://www.crunchyroll.com" + show[1]}}
+				show_obj = {'name': showName, 'sites': {'crunchyroll': showUrl}}
 				showList.append(show_obj)
 		return shows
-	def __GetData(self):
-		blob = requests.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = proxies)
-		print(blob.status_code)
+	def __GetData(self, dataProxy):
+		blob = requests.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = dataProxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
 		return re.findall(regex, blob.text)
 		
-class Funimation(AnimeSource):
-	def __init(self):
-		self.__shows = []
-	def UpdateShowList(self, showList):
-		self.__shows = self.__GetData()
-		transtable = {ord(c): None for c in string.punctuation}
-		for show in self.__shows:
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[1])), False)
-			if (match_index):
-				shows[match_index]['sites']['funimation'] = show[0]
-			else:
-				show_obj = {'name': show[1], 'sites': {'funimation': show[0]}}
-				showList.append(show_obj)
-		return shows
-	def __GetData(self):
-		blob = requests.get('http://www.funimation.com/videos/episodes' , proxies = proxies)
-		regex = '<a class=\"fs16 bold\" href=\"([^\"]*)\">([^\"]*)</a>'
-		return re.findall(regex, blob.text)
-		
-	
 class Netflix(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
+		self.__name = "Netflix"
+	def UpdateShowList(self, showList, titleMap, proxy):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show)
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[1].strip())), False)
+			showName = show[1].strip()
+			showUrl = "http://www.netflix.com/title/" + show[0]
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['netflix'] = "http://www.netflix.com/title/" + show[0]
+				shows[match_index]['sites']['netflix'] = showUrl
 			else:
-				show_obj = {'name': show[1].strip(), 'sites': {'netflix': "http://www.netflix.com/title/" + show[0]}}
+				show_obj = {'name': showName, 'sites': {'netflix': showUrl}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
@@ -95,56 +78,65 @@ class Netflix(AnimeSource):
 class Daisuki(AnimeSource):
 	def __init(self):
 		self.__shows = []
-
-	def UpdateShowList(self, showList):
-		self.__shows = self.__GetData()
+		self.__name = "Daisuki"
+	def UpdateShowList(self, showList, titleMap, proxy):
+		self.__shows = self.__GetData(proxy)
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show)
-			url = "http://www.daisuki.net/anime/detail/" + show['ad_id']
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['title'])), False)
+			showName = show['title']
+			showUrl = "http://www.daisuki.net/anime/detail/" + show['ad_id']
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['daisuki'] = url
+				shows[match_index]['sites']['daisuki'] = showUrl
 			else:
-				show_obj = {'name': show['title'], 'sites': {'daisuki': url}}
+				show_obj = {'name': showName, 'sites': {'daisuki': showUrl}}
 				showList.append(show_obj)
 
 		return shows
 	
-	def __GetData(self):
-		blob = requests.get('http://www.daisuki.net/fastAPI/anime/search/?' , proxies = proxies)
-		#print(blob.text)
+	def __GetData(self, dataProxy):
+		blob = requests.get('http://www.daisuki.net/fastAPI/anime/search/?', proxies = dataProxy)
 		return blob.json()['response']
 		
 class Viewster(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
-		self.__shows = self.__GetData()
+		self.__name = "Viewster"
+	def UpdateShowList(self, showList, titleMap, proxy):
+		self.__shows = self.__GetData(proxy)
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show)
-			url = "https://www.viewster.com/serie/" + show['OriginId']
-			if (type(show['Title']) is str):
-				match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['Title'])), False)
+			showName = show['Title']
+			showUrl = "https://www.viewster.com/serie/" + show['OriginId']
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['viewster'] = url
+				shows[match_index]['sites']['viewster'] = showUrl
 			else:
-				show_obj = {'name': show['Title'], 'sites': {'viewster': url}}
+				show_obj = {'name': showName, 'sites': {'viewster': showUrl}}
 				showList.append(show_obj)
 		return shows
-	def __GetData(self):
-		api_blob = requests.get('https://www.viewster.com/', proxies = proxies)
+	def __GetData(self, dataProxy):
+		api_blob = requests.get('https://www.viewster.com/', proxies = dataProxy)
 		api_token = api_blob.cookies['api_token']
 		headers = {'Auth-token': parse.unquote(api_token)}
-		anime_blob = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=1&genreId=58', headers = headers, proxies = proxies)
-		return json.loads(anime_blob.text)['Items']
+		anime_blob = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=1&genreId=58', headers = headers, proxies = dataProxy)
+		anime_blob2 = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=2&genreId=58', headers = headers, proxies = dataProxy)
+		return json.loads(anime_blob.text)['Items'] + json.loads(anime_blob2.text)['Items']
 		
 shows = []
 sources = [Crunchyroll(), Netflix(), Daisuki(), Viewster()]
+with open('title-map.json') as titlemap_file:
+	titlemap = json.load(titlemap_file)
+with open('proxies.json') as proxies_file:
+	proxy_data = json.load(proxies_file)
+	proxy = proxy_data['uk']
 for source in sources:
-	source.UpdateShowList(shows)
-	print('finished a site')
+	source.UpdateShowList(shows, titlemap, proxy)
+	print('number of shows:' + str(len(shows)))
 shows = sorted(shows, key = lambda show: show['name'].lower())
 out_file = open('../public/data/uk.json', 'w')
 json.dump(shows, out_file)

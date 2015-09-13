@@ -192,7 +192,7 @@ with open('title-map.json') as titlemap_file:
 	titlemap = json.load(titlemap_file)
 for source in sources:
 	source.UpdateShowList(shows, titlemap)
-	print('200')
+	print('number of shows:' + str(len(shows)))
 shows = sorted(shows, key = lambda show: show['name'].lower())
 out_file = open('../public/data/us.json', 'w')
 json.dump(shows, out_file)
