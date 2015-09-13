@@ -141,7 +141,7 @@ class Viewster(AnimeSource):
 		return json.loads(anime_blob.text)['Items']
 		
 shows = []
-sources = [Crunchyroll(), Funimation(), Netflix(), Daisuki(), Viewster()]
+sources = [Crunchyroll(), Netflix(), Daisuki(), Viewster()]
 for source in sources:
 	source.UpdateShowList(shows)
 	print('finished a site')

@@ -36,7 +36,7 @@ var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", 
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki"], 
-	'uk': ["crunchyroll", "funimation", "viewster", "daisuki"]
+	'uk': ["crunchyroll", "netflix", "viewster", "daisuki"]
 }
 var jsons = {
 	'us': './data/us.json',
