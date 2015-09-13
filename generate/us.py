@@ -12,24 +12,33 @@ transtable = {ord(c): None for c in string.punctuation}
 def compare(first, second):
 	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == unidecode(second.lower()).translate(transtable).replace('  ', ' ')
 
+
 class AnimeSource(object):
 	__metaclass__ = ABCMeta
 	
 	@abstractmethod
 	def UpdateShowList(self, showList):
 		pass
+	
+	def GetName(self):
+		return self.__name 
 		
 class Crunchyroll(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
+		self.__name = "Crunchyroll"
+	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		for show in self.__shows:
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[0])), False)
+			showName = show[0]
+			showUrl = "http://www.crunchyroll.com" + show[1]
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['crunchyroll'] = "http://www.crunchyroll.com" + show[1]
+				shows[match_index]['sites']['crunchyroll'] = showUrl
 			else:
-				show_obj = {'name': show[0], 'sites': {'crunchyroll': "http://www.crunchyroll.com" + show[1]}}
+				show_obj = {'name': showName, 'sites': {'crunchyroll': showUrl}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
@@ -40,15 +49,20 @@ class Crunchyroll(AnimeSource):
 class Funimation(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
+		self.__name = "Funimation"
+	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[1])), False)
+			showName = show[1]
+			showUrl = show[0]
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['funimation'] = show[0]
+				shows[match_index]['sites']['funimation'] = showUrl
 			else:
-				show_obj = {'name': show[1], 'sites': {'funimation': show[0]}}
+				show_obj = {'name': showName, 'sites': {'funimation': showUrl}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
@@ -59,16 +73,20 @@ class Funimation(AnimeSource):
 class Hulu(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
+		self.__name = "Hulu"
+	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show['show']['name'])
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['show']['name'])), False)
+			showName = show['show']['name']
+			showUrl = 'http://www.hulu.com/' + show['show']['canonical_name']
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['hulu'] = 'http://www.hulu.com/' + show['show']['canonical_name']
+				shows[match_index]['sites']['hulu'] = showUrl
 			else:
-				show_obj = {'name': show['show']['name'], 'sites': {'hulu': 'http://www.hulu.com/' + show['show']['canonical_name']}}
+				show_obj = {'name': showName, 'sites': {'hulu': showUrl}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
@@ -87,16 +105,20 @@ class Hulu(AnimeSource):
 class Netflix(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
+		self.__name = "Netflix"
+	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show)
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show[1].strip())), False)
+			showName = show[1].strip()
+			showUrl = "http://www.netflix.com/title/" + show[0]
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['netflix'] = "http://www.netflix.com/title/" + show[0]
+				shows[match_index]['sites']['netflix'] = showUrl
 			else:
-				show_obj = {'name': show[1].strip(), 'sites': {'netflix': "http://www.netflix.com/title/" + show[0]}}
+				show_obj = {'name': showName, 'sites': {'netflix': showUrl}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
@@ -116,18 +138,20 @@ class Netflix(AnimeSource):
 class Daisuki(AnimeSource):
 	def __init(self):
 		self.__shows = []
-
-	def UpdateShowList(self, showList):
+		self.__name = "Daisuki"
+	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show)
-			url = "http://www.daisuki.net/anime/detail/" + show['ad_id']
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['title'])), False)
+			showName = show['title']
+			showUrl = "http://www.daisuki.net/anime/detail/" + show['ad_id']
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['daisuki'] = url
+				shows[match_index]['sites']['daisuki'] = showUrl
 			else:
-				show_obj = {'name': show['title'], 'sites': {'daisuki': url}}
+				show_obj = {'name': showName, 'sites': {'daisuki': showUrl}}
 				showList.append(show_obj)
 
 		return shows
@@ -139,18 +163,20 @@ class Daisuki(AnimeSource):
 class Viewster(AnimeSource):
 	def __init(self):
 		self.__shows = []
-	def UpdateShowList(self, showList):
+		self.__name = "Viewster"
+	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			#print(show)
-			url = "https://www.viewster.com/serie/" + show['OriginId']
-			if (type(show['Title']) is str):
-				match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['Title'])), False)
+			showName = show['Title']
+			showUrl = "https://www.viewster.com/serie/" + show['OriginId']
+			if (showName in titleMap):
+				showName = titleMap[showName]
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], showName)), False)
 			if (match_index):
-				shows[match_index]['sites']['viewster'] = url
+				shows[match_index]['sites']['viewster'] = showUrl
 			else:
-				show_obj = {'name': show['Title'], 'sites': {'viewster': url}}
+				show_obj = {'name': showName, 'sites': {'viewster': showUrl}}
 				showList.append(show_obj)
 		return shows
 	def __GetData(self):
@@ -162,8 +188,10 @@ class Viewster(AnimeSource):
 		
 shows = []
 sources = [Crunchyroll(), Funimation(), Hulu(), Netflix(), Daisuki(), Viewster()]
+with open('title-map.json') as titlemap_file:
+	titlemap = json.load(titlemap_file)
 for source in sources:
-	source.UpdateShowList(shows)
+	source.UpdateShowList(shows, titlemap)
 	print('200')
 shows = sorted(shows, key = lambda show: show['name'].lower())
 out_file = open('../public/data/us.json', 'w')

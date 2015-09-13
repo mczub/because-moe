@@ -1,0 +1,10 @@
+{
+	"ca": {
+		"http": "http://<ip>:<port>",
+		"https": "http://<ip>:<port>"
+	},
+	"uk": {
+		"http": "http://<ip>:<port>",
+  		"https": "http://<ip>:<port>"
+	}
+}

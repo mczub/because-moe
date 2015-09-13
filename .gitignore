@@ -46,3 +46,5 @@ node_modules
 generate/*
 generate.zip
 !generate/*.py
+!generate/title-map.json
+!generate/proxies-template.json
