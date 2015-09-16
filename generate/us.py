@@ -30,7 +30,7 @@ class Crunchyroll(AnimeSource):
 	def UpdateShowList(self, showList, titleMap):
 		self.__shows = self.__GetData()
 		for show in self.__shows:
-			showName = show[0]
+			showName = unidecode(show[0])
 			showUrl = "http://www.crunchyroll.com" + show[1]
 			if (showName in titleMap):
 				showName = titleMap[showName]
@@ -54,7 +54,7 @@ class Funimation(AnimeSource):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			showName = show[1]
+			showName = unidecode(show[1])
 			showUrl = show[0]
 			if (showName in titleMap):
 				showName = titleMap[showName]
@@ -78,7 +78,7 @@ class Hulu(AnimeSource):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			showName = show['show']['name']
+			showName = unidecode(show['show']['name'])
 			showUrl = 'http://www.hulu.com/' + show['show']['canonical_name']
 			if (showName in titleMap):
 				showName = titleMap[showName]
@@ -110,7 +110,7 @@ class Netflix(AnimeSource):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			showName = show[1].strip()
+			showName = unidecode(show[1].strip())
 			showUrl = "http://www.netflix.com/title/" + show[0]
 			if (showName in titleMap):
 				showName = titleMap[showName]
@@ -143,7 +143,7 @@ class Daisuki(AnimeSource):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			showName = show['title']
+			showName = unidecode(show['title'])
 			showUrl = "http://www.daisuki.net/anime/detail/" + show['ad_id']
 			if (showName in titleMap):
 				showName = titleMap[showName]
@@ -168,7 +168,7 @@ class Viewster(AnimeSource):
 		self.__shows = self.__GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.__shows:
-			showName = show['Title']
+			showName = unidecode(show['Title'].strip())
 			showUrl = "https://www.viewster.com/serie/" + show['OriginId']
 			if (showName in titleMap):
 				showName = titleMap[showName]
@@ -193,6 +193,12 @@ with open('title-map.json') as titlemap_file:
 for source in sources:
 	source.UpdateShowList(shows, titlemap)
 	print('number of shows:' + str(len(shows)))
+with open('alternates.json') as alternates_file:
+	alternates = json.load(alternates_file)
+for alternate in alternates:
+	match_index = next((i for i, x in enumerate(shows) if compare(x['name'], alternate)), False)
+	if (match_index):
+		shows[match_index]['alt'] = alternates[alternate]
 shows = sorted(shows, key = lambda show: show['name'].lower())
 out_file = open('../public/data/us.json', 'w')
 json.dump(shows, out_file)

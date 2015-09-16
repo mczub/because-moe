@@ -69,7 +69,9 @@ $(document).ready(function(){
 		$('h4').css("color", bg.color);
 		$('.search-input').attr("placeholder", bg.text)
 		showshound = new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+			datumTokenizer: function(show){
+				return Bloodhound.tokenizers.whitespace(show.name + ' ' + show.alt || '')
+			},
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
 			local: shows
 		});
@@ -94,9 +96,12 @@ $(document).ready(function(){
 			$('.results-container').append("<div class='result message'>No Results</div>");
 		} else {
 			showList.forEach(function(show){
-				var resultHtml = "<div class='result'><div class='result-name'>" + show.name + "</div>";
+				var resultHtml = "<div class='result'><div class='result-name'>" + show.name;
+				if (show.alt){
+					resultHtml += "<div class='result-alt mobile-hide'>" + show.alt + "</div>"
+				}
 				var sites = Object.keys(show.sites);
-				resultHtml += "<div class='services-container'>";
+				resultHtml += "</div><div class='services-container'>";
 				providers[region].forEach(function(provider){
 					if (show.sites[provider]){
 						if (typeof show.sites[provider] === 'string' || show.sites[provider] instanceof String){

@@ -199,6 +199,15 @@ img.no{
         transform: translateY(-50%);
         -webkit-transform: translateY(-50%);
     }
+    .result-alt{
+        margin-top: auto;
+        margin-bottom: 0;
+        margin-left: 0;
+        width: 50%;
+        line-height: 1em;
+        font-size:0.8em;
+        color:#999999;
+    }
     
     .services-container{
         display:inline-block;
@@ -493,6 +502,15 @@ img.no{
         top: 50%;
         transform: translateY(-50%);
         -webkit-transform: translateY(-50%);
+    }
+    .result-alt{
+        margin-top: auto;
+        margin-bottom: 0;
+        margin-left: 0;
+        width: 100%;
+        line-height: 1em;
+        font-size:0.8em;
+        color:#999999;
     }
     .result.message{
         border:1px #333333 solid;
