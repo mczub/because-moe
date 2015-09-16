@@ -1,10 +1,10 @@
 {
 	"ca": {
-		"http": "http://<ip>:<port>",
-		"https": "http://<ip>:<port>"
+		"http": "http://<user>:<pass>@<ip>:<port>",
+		"https": "http://<user>:<pass>@<ip>:<port>"
 	},
 	"uk": {
-		"http": "http://<ip>:<port>",
-  		"https": "http://<ip>:<port>"
+		"http": "http://<user>:<pass>@<ip>:<port>",
+  		"https": "http://<user>:<pass>@<ip>:<port>"
 	}
 }
