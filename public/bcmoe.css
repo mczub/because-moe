@@ -13,8 +13,8 @@
 }
 
 .service.na{
-        filter: blur(2px) grayscale(0.8) opacity(30%);
-        -webkit-filter: blur(2px) grayscale(0.8) opacity(30%);
+    filter:  grayscale(0.8) opacity(10%);
+    -webkit-filter: grayscale(0.8) opacity(20%);
 }
 .service-netflix.na{
     filter: blur(2px) grayscale(0.8) opacity(100%);
@@ -45,6 +45,7 @@ img.no{
 .service-daisuki{
     background-image:url("./services/daisuki-800.png")
 }
+
 
 @media only screen and (min-width : 0px) {
     html{
@@ -232,6 +233,7 @@ img.no{
         background-position: center center;
         background-repeat: no-repeat;
     }
+    
     
     
     .footer-container{
@@ -479,7 +481,7 @@ img.no{
         font-style: normal; 
         font-size: 1.8em;
         color:#fff;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     .results-container::-webkit-scrollbar { 
     display: none; 
