@@ -17,7 +17,7 @@ app.get('/ca', function(req, res){
 app.get('/uk', function(req, res){
 	res.render('index', {region: 'uk'});
 })
-app.use('/', express.static('public'));
+app.use('/', express.static('public', { maxAge: 86400000 }));
 
 app.use(function(req, res, next) {
   res.status(404).send('File Not Found');

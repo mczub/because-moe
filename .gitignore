@@ -47,4 +47,5 @@ generate/*
 generate.zip
 !generate/*.py
 !generate/title-map.json
+!generate/alternates.json
 !generate/proxies-template.json
