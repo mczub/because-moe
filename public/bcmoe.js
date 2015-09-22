@@ -32,7 +32,7 @@ var bgs = [
 ]
 
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
-	"rokka -braves of the six flowers-", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
+	"rokka: braves of the six flowers", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki"], 
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		$('.search-input').attr("placeholder", bg.text)
 		showshound = new Bloodhound({
 			datumTokenizer: function(show){
-				return Bloodhound.tokenizers.whitespace(show.name + ' ' + show.alt || '')
+				return Bloodhound.tokenizers.whitespace(show.name + ' ' + (show.alt ? show.alt : ''))
 			},
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
 			local: shows
