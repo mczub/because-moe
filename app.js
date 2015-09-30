@@ -17,6 +17,9 @@ app.get('/ca', function(req, res){
 app.get('/uk', function(req, res){
 	res.render('index', {region: 'uk'});
 })
+app.get('/au', function(req, res){
+	res.render('index', {region: 'au'});
+})
 app.use('/', express.static('public', { maxAge: 86400000 }));
 
 app.use(function(req, res, next) {
