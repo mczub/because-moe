@@ -40,10 +40,10 @@ var providers = {
 	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab"]
 }
 var jsons = {
-	'us': './data/us.json',
-	'ca': './data/ca.json',
-	'uk': './data/uk.json',
-	'au': './data/au.json'
+	'us': './json/us',
+	'ca': './json/ca',
+	'uk': './json/uk',
+	'au': './json/au'
 }
 var shows = []
 var highlights = []

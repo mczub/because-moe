@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 import string
 from unidecode import unidecode
 from urllib import parse
+from azure.storage.blob import BlobService
 
 transtable = {ord(c): None for c in string.punctuation}
 
@@ -157,6 +158,9 @@ sources = [Crunchyroll(), Netflix(), Daisuki(), Viewster(), AnimeLab()]
 #sources = [AnimeLab()]
 with open('title-map.json') as titlemap_file:
 	titlemap = json.load(titlemap_file)
+with open('azure.json') as azure_file:
+	azure_storage = json.load(azure_file)
+azure_blob = BlobService(account_name=azure_storage['account'], account_key=azure_storage['key'])
 with open('proxies.json') as proxies_file:
 	proxy_data = json.load(proxies_file)
 	proxy = proxy_data['au']
@@ -172,4 +176,11 @@ for alternate in alternates:
 shows = sorted(shows, key = lambda show: show['name'].lower())
 out_file = open('../public/data/au.json', 'w')
 json.dump(shows, out_file)
+out_file.close()
+azure_blob.put_block_blob_from_path(
+	'assets',
+	'au.json',
+	'../public/data/au.json',
+	x_ms_blob_content_type='application/json'
+)
 print('done')
