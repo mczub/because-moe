@@ -1,4 +1,5 @@
 var express = require('express');
+var request = require('request');
 var app = express();
 
 /*app.get('/', function(req, res){
@@ -19,6 +20,10 @@ app.get('/uk', function(req, res){
 })
 app.get('/au', function(req, res){
 	res.render('index', {region: 'au'});
+})
+app.get('/json/:country', function(req,res){
+	var jsonUrl = "https://bcmoe.blob.core.windows.net/assets/" + req.params.country + ".json";
+	request(jsonUrl).pipe(res)
 })
 app.use('/', express.static('public', { maxAge: 86400000 }));
 
