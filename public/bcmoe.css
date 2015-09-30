@@ -46,6 +46,10 @@ img.no{
     background-image:url("./services/daisuki-800.png")
 }
 
+.service-animelab{
+    background-image:url("./services/animelab-800.png")
+}
+
 
 @media only screen and (min-width : 0px) {
     html{

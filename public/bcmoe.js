@@ -36,12 +36,14 @@ var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", 
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki"], 
-	'uk': ["crunchyroll", "netflix", "viewster", "daisuki"]
+	'uk': ["crunchyroll", "netflix", "viewster", "daisuki"],
+	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab"]
 }
 var jsons = {
 	'us': './data/us.json',
 	'ca': './data/ca.json',
-	'uk': './data/uk.json'
+	'uk': './data/uk.json',
+	'au': './data/au.json'
 }
 var shows = []
 var highlights = []
