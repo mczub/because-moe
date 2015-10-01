@@ -46,7 +46,7 @@ var jsons = {
 	'au': './json/au'
 }
 var shows = []
-var lastUpdated = ""
+var lastUpdated = {}
 var highlights = []
 $(document).on('click', '.service:not(.na)', function(e){
 	var show = $(this).parents('.result').children('.result-name').text()
@@ -63,7 +63,7 @@ $(document).ready(function(){
 	$.getJSON(jsons[region], function(data){
 		if (data.shows){
 			shows = data.shows
-			lastUpdated = data.lastUpdated
+			lastUpdated = moment.utc(data.lastUpdated)
 		} else {
 			shows = data
 		}
@@ -72,6 +72,9 @@ $(document).ready(function(){
 	function setup(){
 		$('.search-icon').show()
 		$('.search-clear').hide()
+		if (!$.isEmptyObject(lastUpdated)){
+			$('.last-updated').text("Last Updated: " + lastUpdated.local().format("MMM DD HH:mm"))
+		}
 		var bg = bgs[Math.floor(Math.random()*bgs.length)]
 		$('body').css("background-image", bg.cssUrl);
 		$('h4').css("color", bg.color);
