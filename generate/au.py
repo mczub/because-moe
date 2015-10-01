@@ -70,10 +70,10 @@ class Netflix(AnimeSource):
 		
 		cgiUrl = re.findall(getCgiUrlRegex, getCgiUrlBlob.text)[0]
 		headers = {
-			'Referer': 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&cl=46,&st=adv&ob=Relevance',
+			'Referer': 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&cl=23,&st=adv&ob=Relevance',
 			'Accept': 'application/json, text/javascript, */*; q=0.01'
 		}
-		dataBlob = unogsSession.get('http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&t=ns&cl=46,&st=adv&ob=Relevance', headers = headers)
+		dataBlob = unogsSession.get('http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&t=ns&cl=23,&st=adv&ob=Relevance', headers = headers)
 		return json.loads(dataBlob.text)["ITEMS"]
 		
 class Daisuki(AnimeSource):

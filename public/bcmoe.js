@@ -46,6 +46,7 @@ var jsons = {
 	'au': './json/au'
 }
 var shows = []
+var lastUpdated = ""
 var highlights = []
 $(document).on('click', '.service:not(.na)', function(e){
 	var show = $(this).parents('.result').children('.result-name').text()
@@ -60,7 +61,12 @@ $(document).ready(function(){
 	$('.' + region).removeClass('no')
 	console.log(region)
 	$.getJSON(jsons[region], function(data){
-		shows = data
+		if (data.shows){
+			shows = data.shows
+			lastUpdated = data.lastUpdated
+		} else {
+			shows = data
+		}
 		setup()
 	})
 	function setup(){
