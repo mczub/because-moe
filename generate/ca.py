@@ -8,6 +8,7 @@ import string
 from unidecode import unidecode
 from urllib import parse
 from azure.storage.blob import BlobService
+from datetime import datetime
 
 transtable = {ord(c): None for c in string.punctuation}
 
@@ -173,13 +174,14 @@ for alternate in alternates:
 	if (match_index):
 		shows[match_index]['alt'] = alternates[alternate]
 shows = sorted(shows, key = lambda show: show['name'].lower())
-out_file = open('../public/data/ca.json', 'w')
-json.dump(shows, out_file)
+blob = {"lastUpdated": datetime.utcnow().isoformat(), "shows": shows}
+out_file = open('ca.json', 'w')
+json.dump(blob, out_file)
 out_file.close()
 azure_blob.put_block_blob_from_path(
 	'assets',
 	'ca.json',
-	'../public/data/ca.json',
+	'ca.json',
 	x_ms_blob_content_type='application/json'
 )
 print('done')
