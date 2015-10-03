@@ -41,7 +41,17 @@ class Crunchyroll(AnimeSource):
 				showList.append(show_obj)
 		return shows
 	def __GetData(self, dataProxy):
-		blob = requests.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = dataProxy)
+		with open('credentials.json') as creds_file:
+			credentials = json.load(creds_file)
+		crSession = requests.Session()
+		params = {
+			"formname": "RpcApiUser_Login",
+			"failurl": "http://www.crunchyroll.com/login",
+			"name": credentials['crunchyroll']['username'], 
+			"password": credentials['crunchyroll']['password']
+		}
+		crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = dataProxy)
+		blob = crSession.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = dataProxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
 		return re.findall(regex, blob.text)
 		
