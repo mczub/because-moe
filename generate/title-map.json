@@ -119,7 +119,12 @@
 	"Fate/stay night [Unlimited Blade Works]": "Fate/stay night Unlimited Blade Works",
 	"Fate/stay night(Unlimited Blade Works) Season 1": "Fate/stay night Unlimited Blade Works Season 1",
 	"Fate/stay night(Unlimited Blade Works) Season 2": "Fate/stay night Unlimited Blade Works Season 2",
+	"Fate / Stay Night Unlimited Blade Works (2010)": "Fate/stay night Unlimited Blade Works The Movie",
+	"Fate/kaleid liner PRISMA ILLYA": "Fate/Kaleid Liner Prisma Illya",
 	"crunchyroll":{
 		"Fate/stay night": "Fate/stay night Unlimited Blade Works"
+	},
+	"hulu":{
+		"Free!": "Free! Eternal Summer"
 	}
 }
