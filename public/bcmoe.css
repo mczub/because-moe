@@ -50,6 +50,18 @@ img.no{
     background-image:url("./services/animelab-800.png")
 }
 
+.service-animax{
+    background-image:url("./services/animax-800.png")
+}
+
+.service-hanabee{
+    background-image:url("./services/hanabee-800.png")
+}
+
+.service-animenetwork{
+    background-image:url("./services/animenetwork-800.png")
+}
+
 
 @media only screen and (min-width : 0px) {
     html{
@@ -210,7 +222,7 @@ img.no{
         margin-top: auto;
         margin-bottom: 0;
         margin-left: 0;
-        width: 50%;
+        width: 100%;
         line-height: 1em;
         font-size:0.8em;
         color:#999999;
