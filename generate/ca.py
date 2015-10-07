@@ -25,7 +25,8 @@ sources = [
 	animesources.Funimation(titlemap, multiseason, 'ca', proxy), 
 	animesources.Netflix(titlemap, multiseason, 'ca', proxy), 
 	animesources.Daisuki(titlemap, multiseason, 'ca', proxy), 
-	animesources.Viewster(titlemap, multiseason, 'ca', proxy)]
+	animesources.Viewster(titlemap, multiseason, 'ca', proxy),
+	animesources.AnimeNetwork(titlemap, multiseason, 'ca', proxy)]
 for source in sources:
 	source.UpdateShowList(shows)
 	print(source.GetName() + ': ' + str(len(shows)))
