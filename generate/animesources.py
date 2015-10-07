@@ -204,7 +204,7 @@ class Animax(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
-			print(show)
+			#print(show)
 			showName = unidecode(show[1].strip())
 			showUrl = "https://www.animax.co.uk/" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
@@ -222,7 +222,7 @@ class Hanabee(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
-			print(show)
+			#print(show)
 			showName = unidecode(show[1].strip())
 			showUrl = "http://hanabee.com.au" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
