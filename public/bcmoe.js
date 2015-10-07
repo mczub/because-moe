@@ -34,10 +34,10 @@ var bgs = [
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
 	"rokka: braves of the six flowers", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
 var providers = {
-	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki"], 
+	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki"], 
-	'uk': ["crunchyroll", "netflix", "viewster", "daisuki"],
-	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab"]
+	'uk': ["crunchyroll", "netflix", "viewster", "daisuki", "animax"],
+	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee"]
 }
 var jsons = {
 	'us': './json/us',

@@ -18,14 +18,7 @@ with open('azure.json') as azure_file:
 	azure_storage = json.load(azure_file)
 azure_blob = BlobService(account_name=azure_storage['account'], account_key=azure_storage['key'])
 sources = [
-	animesources.Hulu(titlemap, multiseason),
-	animesources.Crunchyroll(titlemap, multiseason),
-	animesources.Funimation(titlemap, multiseason), 
-	animesources.AnimeNetwork(titlemap, multiseason),
-	animesources.Netflix(titlemap, multiseason), 
-	animesources.Daisuki(titlemap, multiseason), 
-	animesources.Viewster(titlemap, multiseason)
-	]
+	animesources.AnimeNetwork(titlemap, multiseason)]
 for source in sources:
 	source.UpdateShowList(shows)
 	print(source.GetName() + ': ' + str(len(shows)))
@@ -37,13 +30,7 @@ for alternate in alternates:
 		shows[match_index]['alt'] = alternates[alternate]
 shows = sorted(shows, key = lambda show: show['name'].lower())
 blob = {"lastUpdated": datetime.utcnow().isoformat(), "shows": shows}
-out_file = open('us.json', 'w')
+out_file = open('test.json', 'w')
 json.dump(blob, out_file)
 out_file.close()
-azure_blob.put_block_blob_from_path(
-	'assets',
-	'us.json',
-	'us.json',
-	x_ms_blob_content_type='application/json'
-)
 print('done')

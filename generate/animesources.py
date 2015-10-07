@@ -63,7 +63,7 @@ class Crunchyroll(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
-			showName = unidecode(show[0])
+			showName = unidecode(show[0].strip())
 			showUrl = "http://www.crunchyroll.com" + show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
@@ -88,7 +88,7 @@ class Funimation(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
-			showName = unidecode(show[1])
+			showName = unidecode(show[1].strip())
 			showUrl = show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
@@ -103,7 +103,7 @@ class Hulu(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
-			showName = unidecode(show['show']['name'])
+			showName = unidecode(show['show']['name'].strip())
 			showUrl = 'http://www.hulu.com/' + show['show']['canonical_name']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
@@ -157,7 +157,7 @@ class Daisuki(AnimeSource):
 		self.shows = self.GetData()
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.shows:
-			showName = unidecode(show['title'])
+			showName = unidecode(show['title'].strip())
 			showUrl = "http://www.daisuki.net/anime/detail/" + show['ad_id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
@@ -196,3 +196,60 @@ class AnimeLab(AnimeSource):
 		shows_blob1 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=0', proxies = self.proxy)
 		shows_blob2 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=1', proxies = self.proxy)
 		return json.loads(shows_blob1.text)['list'] + json.loads(shows_blob2.text)['list']
+		
+class Animax(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "animax"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			print(show)
+			showName = unidecode(show[1].strip())
+			showUrl = "https://www.animax.co.uk/" + show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		blob = requests.get('http://www.animaxtv.co.uk/programs', proxies = self.proxy)
+		regex1 = '<optgroup label=\"Shows &amp; Movies\">(.*)</optgroup></select>'
+		regex2 = '<option value=\"([^\"]*)\">([^\"]*)</option>'
+		data1 = re.findall(regex1, blob.text)[0]
+		return re.findall(regex2, data1)
+		
+class Hanabee(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "hanabee"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			print(show)
+			showName = unidecode(show[1].strip())
+			showUrl = "http://hanabee.com.au" + show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		for curIndex in range(0, 5):
+			blob = requests.get('http://hanabee.com.au/shows/?vod-filter-button=on&start=' + str(curIndex * 10) , proxies = self.proxy)
+			regex = '<h3><a href=\"([^\"]*)\" >([^\"]*)</a></h3>'
+			results += re.findall(regex, blob.text)
+		return results
+		
+class AnimeNetwork(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "animenetwork"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = unidecode(show[0].strip().replace('&#39;', '\''))
+			showUrl = "http://www.theanimenetwork.com" + show[1]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		pages = ['0'] + list(string.ascii_uppercase)
+		for letter in pages:
+			blob = requests.get('http://www.theanimenetwork.com/Watch-Anime/Alphabet/' + letter, proxies = self.proxy)
+			regex = '<h3 class=\"small hidden-sm hidden-xs\">([^\"]*)</h3>[\n\s]*<a href=\"([^\"]*)\">'
+			print(letter)
+			results += re.findall(regex, blob.text, re.M)
+		return results
