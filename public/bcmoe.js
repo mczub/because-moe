@@ -140,12 +140,32 @@ $(document).ready(function(){
 	$('.search-clear').on('click', function(){
 		$('.search-input').val('');
 		resultsUpdate();
-	})
-		
-	$('.search-input').on('input', function(){
-		resultsUpdate();
+		updateURL("");
 	})
 	
+	var searchTimeout;
+	
+	$('.search-input').on('input', function(){
+		clearTimeout(searchTimeout);
+		resultsUpdate();
+		//updateURL();
+		searchTimeout = setTimeout(onSearchTimeout, 1000);
+	})
+	
+	function onSearchTimeout(){
+		var searchTerm = $('.search-input').val();
+		ga('send', 'event', 'search', searchTerm);
+		updateURL(searchTerm);
+	}
+	
+	function updateURL(searchTerm){
+		var curSite = location.href.split("?")[0];
+		if (searchTerm === '') {
+			 history.replaceState(null, null, curSite);
+		} else {
+			history.replaceState(null, null,  curSite + "?q=" + searchTerm);
+		}
+	}
 	function resultsUpdate(){
 		if ($('.search-input').val() === '') { 
 			$('.search-icon').show()
