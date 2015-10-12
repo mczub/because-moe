@@ -156,7 +156,7 @@ $(document).ready(function(){
 	
 	function onSearchTimeout(){
 		var searchTerm = $('.search-input').val();
-		ga('send', 'event', 'search', searchTerm);
+		ga('send', 'event', 'search', searchTerm, parseInt($(".result").length));
 		updateURL(searchTerm);
 	}
 	
