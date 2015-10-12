@@ -137,13 +137,15 @@ $(document).ready(function(){
 		}
 		//console.log(showList);
 	}
+	var searchTimeout;
 	$('.search-clear').on('click', function(){
 		$('.search-input').val('');
 		resultsUpdate();
 		updateURL("");
+		clearTimeout(searchTimeout);
 	})
 	
-	var searchTimeout;
+	
 	
 	$('.search-input').on('input', function(){
 		clearTimeout(searchTimeout);
