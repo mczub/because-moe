@@ -49,7 +49,7 @@ class AnimeSource:
 				#print(showNames)
 		for name in showNames:
 			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], name)), False)
-			if (match_index):
+			if (type(match_index) == int):
 				showList[match_index]['sites'][self.name] = showUrl
 			else:
 				show_obj = {'name': name, 'sites': {self.name: showUrl}}
@@ -190,7 +190,7 @@ class AnimeLab(AnimeSource):
 		self.shows = self.GetData()
 		for show in self.shows:
 			showName = unidecode(show['name'].strip())
-			showUrl = "https://www.animelab.com/shows/first/" + show['slug']
+			showUrl = "https://www.animelab.com/shows/" + show['slug']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
 		shows_blob1 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=0', proxies = self.proxy)
@@ -206,7 +206,7 @@ class Animax(AnimeSource):
 		for show in self.shows:
 			#print(show)
 			showName = unidecode(show[1].strip())
-			showUrl = "https://www.animax.co.uk/" + show[0]
+			showUrl = "https://www.animaxtv.co.uk/" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
 		blob = requests.get('http://www.animaxtv.co.uk/programs', proxies = self.proxy)

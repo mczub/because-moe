@@ -68,7 +68,12 @@ $(document).ready(function(){
 			shows = data
 		}
 		setup()
+		if (query !== ""){
+			$('.search-input').val(query);
+			resultsUpdate();
+		}
 	})
+	
 	function setup(){
 		$('.search-icon').show()
 		$('.search-clear').hide()

@@ -7,19 +7,19 @@ var app = express();
 });*/
 app.set('view engine', 'jade');
 app.get('/', function(req, res){
-	res.render('index', {region: 'us'});
+	res.render('index', {region: 'us', query: (req.query.q) ? req.query.q : ""});
 })
 app.get('/us', function(req, res){
-	res.render('index', {region: 'us'});
+	res.render('index', {region: 'us', query: (req.query.q) ? req.query.q : ""});
 })
 app.get('/ca', function(req, res){
-	res.render('index', {region: 'ca'});
+	res.render('index', {region: 'ca', query: (req.query.q) ? req.query.q : ""});
 })
 app.get('/uk', function(req, res){
-	res.render('index', {region: 'uk'});
+	res.render('index', {region: 'uk', query: (req.query.q) ? req.query.q : ""});
 })
 app.get('/au', function(req, res){
-	res.render('index', {region: 'au'});
+	res.render('index', {region: 'au', query: (req.query.q) ? req.query.q : ""});
 })
 app.get('/json/:country', function(req,res){
 	var jsonUrl = "https://bcmoe.blob.core.windows.net/assets/" + req.params.country + ".json";
