@@ -23,6 +23,7 @@ app.get('/au', function(req, res){
 })
 app.get('/json/:country', function(req,res){
 	var jsonUrl = "https://bcmoe.blob.core.windows.net/assets/" + req.params.country + ".json";
+	res.setHeader('Cache-Control', 'public, max-age=432000');
 	request(jsonUrl).pipe(res)
 })
 app.use('/', express.static('public', { maxAge: 86400000 }));

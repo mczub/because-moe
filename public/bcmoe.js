@@ -32,7 +32,7 @@ var bgs = [
 ]
 
 var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "naruto", "one piece", "eureka seven", 
-	"rokka: braves of the six flowers", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
+	"one punch man", "love live! school idol project", "puella magi madoka magica", "dragon ball z"]
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork"], 
