@@ -61,7 +61,24 @@ img.no{
 .service-animenetwork{
     background-image:url("./services/animenetwork-800.png")
 }
-
+.simulcast{
+    background-image:url("./tags/current-round.png");
+    background-size: 18px 18px;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+}
+.dub{
+    background-image:url("./tags/dub.png");
+    background-size: 18px 18px;
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+}
 
 @media only screen and (min-width : 0px) {
     html{
@@ -244,6 +261,7 @@ img.no{
     
     .service{
         display:inline-block;
+        position:relative;
         margin:0px 2px;
         width:44px;
         height:44px;
@@ -550,7 +568,7 @@ img.no{
         right:20px;
     }
     .service{
-        
+        position:relative;
     }
    
     .footer-container{
