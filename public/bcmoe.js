@@ -43,9 +43,11 @@ var jsons = {
 	'us': './json/us',
 	'ca': './json/ca',
 	'uk': './json/uk',
-	'au': './json/au'
+	'au': './json/au',
+	'current': './current.json'
 }
 var shows = []
+var currents = {}
 var lastUpdated = {}
 var highlights = []
 $(document).on('click', '.service:not(.na)', function(e){
@@ -74,6 +76,7 @@ $(document).ready(function(){
 		}
 	})
 	
+	
 	function setup(){
 		$('.search-icon').show()
 		$('.search-clear').hide()
@@ -99,7 +102,11 @@ $(document).ready(function(){
 			if (a.name > b.name) return 1;
 			return 0;
 		})
-		updateShowList(highlights);
+		$.getJSON(jsons['current'], function(data){
+			currents = data;
+			updateShowList(highlights);
+		})
+		
 	}
 	
 	
@@ -109,7 +116,7 @@ $(document).ready(function(){
 			$('.results-container').append("<div class='result message'>"+ message + "</div>");
 		}
 		if (showList.length == 0){
-			$('.results-container').append("<div class='result message'>No Results</div>");
+			$('.results-container').append("<div class='result message'>Couldn't Find Any Streams</div>");
 		} else {
 			showList.forEach(function(show){
 				var resultHtml = "<div class='result'><div class='result-name'>" + show.name;
@@ -121,7 +128,15 @@ $(document).ready(function(){
 				providers[region].forEach(function(provider){
 					if (show.sites[provider]){
 						if (typeof show.sites[provider] === 'string' || show.sites[provider] instanceof String){
-							resultHtml += "<a href='" + show.sites[provider] + "' target='_blank'><div class='service service-" + provider + "' service='" + provider + "'></div></a>"
+							resultHtml += "<a href='" + show.sites[provider] + "' target='_blank'><div class='service service-" + provider + "' service='" + provider + "'>"
+							if (currents[show.name]){
+								if (typeof(currents[show.name]) === 'object' && Object.keys(currents[show.name]).length > 0 ){
+									if (currents[show.name][region].indexOf(provider) < 0) { }
+									else { resultHtml += "<div class='simulcast'></div>" } 
+								} else { resultHtml += "<div class='simulcast'></div>" }
+								
+							}
+							resultHtml += "</div></a>"
 						} else {
 							resultHtml += "<div class='service service-" + provider + "' service='" + provider + "'></div>"
 						}
@@ -179,6 +194,10 @@ $(document).ready(function(){
 			var providerIndex = providers[region].indexOf($('.search-input').val().toLowerCase());
 			updateShowList(shows.filter(function(show){
 				return providers[region][providerIndex] in show['sites']
+			}))
+		} else if ($('.search-input').val().toLowerCase() === 'current'){
+			updateShowList(shows.filter(function(show){
+				return Object.keys(currents).indexOf(show['name']) > 0
 			}))
 		} else {
 			$('.search-icon').hide()

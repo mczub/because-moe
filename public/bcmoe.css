@@ -61,7 +61,41 @@ img.no{
 .service-animenetwork{
     background-image:url("./services/animenetwork-800.png")
 }
-
+.simulcast{
+    background-image:url("./tags/current-round.png");
+    background-size: 18px 18px;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+}
+.dub{
+    background-image:url("./tags/dub.png");
+    background-size: 18px 18px;
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+}
+.info-item{
+    position:relative;
+    text-align: center;
+    margin: 6px;
+}
+.tag{
+    position:relative;
+    width:30px;
+    height:30px;
+    margin: 2px;
+    margin-right: 15px;
+}
+.desc{
+    position:relative;
+    height:30px;
+    top:2px;
+}
 
 @media only screen and (min-width : 0px) {
     html{
@@ -107,6 +141,20 @@ img.no{
         border:1px #333333 solid;
         text-align:center;
         margin: 5px;
+    }
+    .info-container{
+        background-color:rgba(66,66,66,0.9);
+        border:1px #333333 solid;
+        text-align:center;
+        margin: 5px;
+        height: 50px;
+        color:white;
+        position:relative;
+        font-family: 'HankenBook'; 
+        font-weight: normal; 
+        font-style: normal; 
+        text-align: left;
+        font-size: 20px;
     }
     a.region-flag{
         display: inline;
@@ -244,6 +292,7 @@ img.no{
     
     .service{
         display:inline-block;
+        position:relative;
         margin:0px 2px;
         width:44px;
         height:44px;
@@ -386,6 +435,9 @@ img.no{
     .regions-container{
         margin: 4px;
     }
+    .info-container{
+        margin: 4px;
+    }
 }
 
 
@@ -521,7 +573,7 @@ img.no{
         margin-bottom: auto;
         margin-left: 5px;
         position: absolute;
-        width: 50%;
+        width: 45%;
         line-height: 1.2em;
         top: 50%;
         transform: translateY(-50%);
@@ -550,7 +602,7 @@ img.no{
         right:20px;
     }
     .service{
-        
+        position:relative;
     }
    
     .footer-container{
@@ -595,6 +647,13 @@ img.no{
         width: 350px;
         left: 25px;
         top: 150px;
+    }
+    
+    .info-container{
+        position: fixed;
+        width: 350px;
+        left: 25px;
+        top: 220px;
     }
 }
 @media only screen and (max-width : 767px) {
