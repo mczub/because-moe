@@ -1,5 +1,5 @@
 link(rel="stylesheet" media="screen" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" type="text/css")
-link(rel="stylesheet" media="screen" href="./bcmoe.css" type="text/css")
+link(rel="stylesheet" media="screen" href="./index.css" type="text/css")
 link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon') 
 script(type='text/javascript').
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -22,29 +22,36 @@ html
 	head
 		title BECAUSE.MOE - anime streaming search engine
 	body
-		.logo-container
-			h2.title because.moe
-			h4.subtitle anime streaming search engine
-		.search-container
-			input(type="text" class="search-input")
-			.search-clear
-				span(class="glyphicon glyphicon-remove")
-			.search-icon
-				span(class="glyphicon glyphicon-search")
-		.results-container
-		.footer-container
-			.info-container
-				.info-item
-					img.tag(src="./tags/current-round.png")
-					span.desc Current Season
+		.header
+			.logo-container
+				h2.title because.moe
+				h4.subtitle anime streaming search engine
+			.search-container
+				input(type="text" class="search-input")
+				.search-clear
+					span(class="glyphicon glyphicon-remove")
+				.search-icon
+					span(class="glyphicon glyphicon-search")
 			.regions-container
-				a.region-flag(href="./") #[img.us.no(src="./flags/us.svg")]
-				a.region-flag(href="./ca") #[img.ca.no(src="./flags/ca.svg")]
-				a.region-flag(href="./uk") #[img.uk.no(src="./flags/gb.svg")]
-				a.region-flag(href="./au") #[img.au.no(src="./flags/au.svg")]
-			.footer-left
-				p.mobile-hide Results may only be valid in !{region.toUpperCase()}
-				p.mobile-hide See something wrong? #[a(href="http://goo.gl/forms/honnymv12Y" target='_blank') Let me know!]
-			.footer-right
-				p.mobile-hide Created by #[a(href="http://twitter.com/mczub" target='_blank') @mczub]
-				p.mobile-hide.last-updated 
+				select.region-selector
+					option.us US
+					option.ca CA
+					option.uk UK
+					option.au AU
+			.help-icon
+				span(class="glyphicon glyphicon-question-sign")
+		.showcase-container
+		.results-container
+		.help-container
+			.info-container
+					//.info-item
+						img.tag(src="./tags/current-round.png")
+						span.desc Current Season
+				.footer-left
+					//p.mobile-hide Results may only be valid in !{region.toUpperCase()}
+					//p.mobile-hide See something wrong? #[a(href="http://goo.gl/forms/honnymv12Y" target='_blank') Let me know!]
+				.footer-right
+					//p.mobile-hide Created by #[a(href="http://twitter.com/mczub" target='_blank') @mczub]
+					//p.mobile-hide.last-updated 
+		.footer-container
+			
