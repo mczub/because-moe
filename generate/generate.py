@@ -162,30 +162,17 @@ class MyAnimeList(AnimeSource):
 			# print(show)
 			query = re.sub(r"\s+", '+', show['name'])
 			url = "http://myanimelist.net/api/anime/search.xml?q=" + query
-			print(url)
 			blob = requests.get(url, auth=HTTPBasicAuth('paperskyway', 'maplesucks1'))
-			text = re.sub(r"&(?!#\d{4};|amp;)", 'ampersand', blob.text)
-			print(blob.text)
+			text = re.sub(r"&(?!#\d{4};|amp;)", 'amper', blob.text)
 			if (blob.status_code == 200):
 				root = ET.fromstring(text)
-				print(root.find('entry').find('id').text)
-				print(root.find('entry').find('score').text)
-				#print(root.find('id'))
-				#print(root.find('score'))
-			# url = "http://myanimelist.net/api/anime/search.xml?q=" + show['OriginId']
-			# if (type(show['Title']) is str):
-			# 	match_index = next((i for i, x in enumerate(showList) if compare(x['name'], show['Title'])), False)
-			# if (match_index):
-			# 	shows[match_index]['sites']['viewster'] = url
-			# else:
-			# 	show_obj = {'name': show['Title'], 'sites': {'viewster': url}}
-			# 	showList.append(show_obj)
+				show['sites']['MyAnimeList'] = "http://myanimelist.net/anime/" + root.find('entry').find('id').text
+				show['ratings'] = root.find('entry').find('score').text
 		return shows
 
 		
 shows = []
-#sources = [Crunchyroll(), Funimation(), Hulu(), Netflix(), Daisuki(), Viewster(), MyAnimeList()]
-sources = [Crunchyroll(), MyAnimeList()]
+sources = [Crunchyroll(), Funimation(), Hulu(), Netflix(), Daisuki(), Viewster(), MyAnimeList()]
 for source in sources:
 	source.UpdateShowList(shows)
 shows = sorted(shows, key = lambda show: show['name'].lower())
