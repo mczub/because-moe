@@ -26,6 +26,9 @@ app.get('/json/:country', function(req,res){
 	//res.setHeader('Cache-Control', 'public, max-age=432000');
 	request(jsonUrl).pipe(res)
 })
+app.get('/viewall', function(req, res){
+	res.render('viewall', {region: 'us', query: (req.query.q) ? req.query.q : ""});
+})
 app.use('/', express.static('public', { maxAge: 86400000 }));
 
 app.use(function(req, res, next) {

@@ -168,6 +168,9 @@ class MyAnimeList(AnimeSource):
 				root = ET.fromstring(text)
 				show['sites']['MyAnimeList'] = "http://myanimelist.net/anime/" + root.find('entry').find('id').text
 				show['ratings'] = root.find('entry').find('score').text
+			else:
+				show['ratings'] = 0
+			
 		return shows
 
 		
