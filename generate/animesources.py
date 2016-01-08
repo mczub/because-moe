@@ -153,6 +153,12 @@ class Daisuki(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "daisuki"
+		self.countryCodes = {
+			'us': 'us',
+			'uk': 'gb',
+			'ca': 'ca',
+			'au': 'au'
+		}
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		transtable = {ord(c): None for c in string.punctuation}
@@ -161,7 +167,7 @@ class Daisuki(AnimeSource):
 			showUrl = "http://www.daisuki.net/anime/detail/" + show['ad_id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
-		blob = requests.get('http://www.daisuki.net/fastAPI/anime/search/?', proxies = self.proxy)
+		blob = requests.get('http://www.daisuki.net/bin/wcm/searchAnimeAPI?api=anime_list&searchOptions=&currentPath=%2Fcontent%2Fdaisuki%2F' + self.countryCodes[self.region] + '%2Fen', proxies = self.proxy)
 		return blob.json()['response']
 		
 class Viewster(AnimeSource):
