@@ -244,7 +244,7 @@ $(document).ready(function(){
 			$('.search-icon').hide()
 			$('.search-clear').show()
 			updateShowList(shows.filter(function(show){
-				return Object.keys(currents).indexOf(show['name']) > 0
+				return Object.keys(currents).indexOf(show['name']) > -1
 			}))
 		} else {
 			$('.search-icon').hide()
