@@ -47,13 +47,15 @@ var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork"], 
 	'uk': ["crunchyroll", "netflix", "viewster", "daisuki", "animax"],
-	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee"]
+	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee"],
+	'de': []
 }
 var jsons = {
 	'us': './json/us',
 	'ca': './json/ca',
 	'uk': './json/uk',
 	'au': './json/au',
+	'de': './json/de',
 	'current': './current.json'
 }
 var shows = []
