@@ -345,3 +345,29 @@ class AnimeNetwork(AnimeSource):
 			print(letter)
 			results += re.findall(regex, blob.text, re.M)
 		return results
+
+class Netzkino(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "netzkino"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show["title"]
+			showUrl = "http://www.netzkino.de/#!/anime/" + show["slug"]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	def GetData(self):
+		url = "http://api.netzkino.de.simplecache.net/capi-2.0a/categories/asiakino.json?d=www&l=de-DE&v=unknown-debugBuild"
+		data = requests.get(url, proxies = self.proxy).json()
+		
+		results = []
+		
+		posts = data["posts"]
+		for post in posts:
+			categories = post["categories"]
+			if 7961 in categories:
+				results += [post]
+		
+		return results

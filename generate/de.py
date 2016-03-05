@@ -30,7 +30,8 @@ with open('proxies.json') as proxies_file:
 sources = [
 	animesources.Crunchyroll(titlemap, multiseason, 'de', proxy), 
 	animesources.NetflixDE(titlemap, multiseason, 'de', proxy),
-	animesources.Daisuki(titlemap, multiseason, 'de', proxy)
+	animesources.Daisuki(titlemap, multiseason, 'de', proxy),
+	animesources.Netzkino(titlemap, multiseason, 'de', proxy)
 ]
 
 for source in sources:
