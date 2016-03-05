@@ -398,8 +398,14 @@ class MyVideo(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
-			showName = show["title"]
-			linkTarget = show.get("linkTarget", show.get("href", ""))
+			showName = show["title"].strip()
+			if show["itemType"] == "video":
+				subtitle = show.get("subtitle", None)
+				if subtitle != None:
+					showName += " - " + subtitle
+				linkTarget = show["href"]
+			else:
+				linkTarget = show["linkTarget"]
 			showUrl = "http://www.myvideo.de" + linkTarget
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
