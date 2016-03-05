@@ -76,7 +76,8 @@ class Crunchyroll(AnimeSource):
 			"name": credentials['crunchyroll']['username'], 
 			"password": credentials['crunchyroll']['password']
 		}
-		crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = self.proxy)
+		if params["name"] != None and params["password"] != None:
+			crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = self.proxy)
 		blob = crSession.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = self.proxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
 		return re.findall(regex, blob.text)
