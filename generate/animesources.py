@@ -371,3 +371,22 @@ class Netzkino(AnimeSource):
 				results += [post]
 		
 		return results
+
+class AnimeOnDemand(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "animeondemand"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show[0]
+			showUrl = "https://www.anime-on-demand.de" + show[1]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	def GetData(self):
+		url = "https://www.anime-on-demand.de/animes"
+		blob = requests.get(url, proxies = self.proxy)
+		
+		regex = '<h3 class=\"animebox-title\">(.*?)</h3>[\n\s\S]*?<a href=\"(.*?)\">(zur Serie|zum Film)</a>'
+		return re.findall(regex, blob.text, re.M)
