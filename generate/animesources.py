@@ -424,3 +424,22 @@ class MyVideo(AnimeSource):
 				
 				offset += len(pageItems)
 		return results
+
+class Clipfish(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "clipfish"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show[1]
+			showUrl = show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	def GetData(self):
+		url = "http://www.clipfish.de/special/anime/alle-serien/"
+		blob = requests.get(url, proxies = self.proxy)
+		
+		regex = '<li id="cf-video-item_[0-9]*?">[\s]*?<a target=\"_top\" href=\"(.*?)\" title=\"(.*?)\">'
+		return re.findall(regex, blob.text, re.M)
