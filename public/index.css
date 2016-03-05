@@ -58,6 +58,9 @@ input {
 .service-animeondemand{
   background-image:url("./services/animeondemand-800.png");
 }
+.service-myvideo{
+  background-image:url("./services/myvideo-800.png");
+}
 body {
   background-color: #333333;
   /*background-image:url('./madoka.png');*/

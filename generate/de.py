@@ -33,7 +33,8 @@ sources = [
 	animesources.Viewster(titlemap, multiseason, 'de', proxy),
 	animesources.Daisuki(titlemap, multiseason, 'de', proxy),
 	animesources.Netzkino(titlemap, multiseason, 'de', proxy),
-	animesources.AnimeOnDemand(titlemap, multiseason, 'de', proxy)
+	animesources.AnimeOnDemand(titlemap, multiseason, 'de', proxy),
+	animesources.MyVideo(titlemap, multiseason, 'de', proxy)
 ]
 
 for source in sources:

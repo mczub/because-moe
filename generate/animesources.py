@@ -390,3 +390,31 @@ class AnimeOnDemand(AnimeSource):
 		
 		regex = '<h3 class=\"animebox-title\">(.*?)</h3>[\n\s\S]*?<a href=\"(.*?)\">(zur Serie|zum Film)</a>'
 		return re.findall(regex, blob.text, re.M)
+
+class MyVideo(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "myvideo"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show["title"]
+			linkTarget = show.get("linkTarget", show.get("href", ""))
+			showUrl = "http://www.myvideo.de" + linkTarget
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		pageIds = ["5922", "62962"]
+		for pageId in pageIds:
+			offset = 0
+			while True:
+				url = 'http://www.myvideo.de/_partial/sushibar/' + pageId + '?ajaxoffset=' + str(offset) + '&_format=json'
+				blob = requests.get(url, proxies = self.proxy)
+				pageItems = blob.json()["items"]
+				results += [item for item in pageItems if item["itemType"] == "video" or item["itemType"] == "tvseries"]
+				
+				if len(pageItems) < 12:
+					break
+				
+				offset += len(pageItems)
+		return results

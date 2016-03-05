@@ -48,7 +48,7 @@ var providers = {
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork"], 
 	'uk': ["crunchyroll", "netflix", "viewster", "daisuki", "animax"],
 	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee"],
-	'de': ["crunchyroll", "netflix", "viewster", "daisuki", "netzkino", "animeondemand"]
+	'de': ["crunchyroll", "netflix", "viewster", "daisuki", "netzkino", "animeondemand", "myvideo"]
 }
 var jsons = {
 	'us': './json/us',
