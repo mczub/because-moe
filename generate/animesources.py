@@ -128,7 +128,8 @@ class Netflix(AnimeSource):
 			'us': '78',
 			'uk': '46',
 			'ca': '33',
-			'au': '23'
+			'au': '23',
+			'de': '39'
 		}
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
@@ -149,7 +150,90 @@ class Netflix(AnimeSource):
 		dataBlob = unogsSession.get('http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&t=ns&cl=' + self.countryCodes[self.region] + ',&st=adv&ob=Relevance', headers = headers)
 		return json.loads(dataBlob.text)["ITEMS"]
 		
+
+class NetflixDE(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "netflix"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = unidecode(show[1].strip())
+			showUrl = "http://www.netflix.com/title/" + show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	# Multipage api request
+	def GetDataForUrl(self, session, refererUrl, blobUrl):
+		count = 0
+		page = 1
+		items = []
+		while True:
+			headers = {
+				'Referer': refererUrl if page == 1 else refererUrl + "&p=" + str(page),
+				'Accept': 'application/json, text/javascript, */*; q=0.01'
+			}
+			
+			dataBlob = session.get(blobUrl if page == 1 else blobUrl + "&p=" + str(page), headers = headers)
+			apiData = json.loads(dataBlob.text)
+			
+			if len(apiData["ITEMS"]) == 0:
+				break
+			
+			if page == 1:
+				count = int(apiData["COUNT"])
+			
+			items += apiData["ITEMS"]
+			
+			if len(items) >= count:
+				break
+			
+			page += 1
 		
+		return items
+	
+	def GetData(self):
+		unogsSession = requests.Session()
+		getCgiUrlBlob = unogsSession.get('http://unogs.com/search')
+		getCgiUrlRegex = 'var cgiurl=\'([^\&"]*)\';'
+		cgiUrl = re.findall(getCgiUrlRegex, getCgiUrlBlob.text)[0]
+		
+		# API only retuns half of all available anime titles.
+		# Workaround:
+		# Step 1: Query all anime available in Germany (in case it returns more in the future)
+		# Step 2: Query everything available in Germany
+		# Step 3: Compare data from step 2 with netflix-titles.json and add anime titles to data from step 1
+		
+		# Step 1
+		animeCategories = "10695,11146,2653,2729,3063,413820,452,6721,7424,9302"
+		refererUrl = 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!' + animeCategories + '-!Any-!Any-!Any&cl=39,&st=adv&ob=Relevance'
+		blobUrl = 'http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!' + animeCategories + '-!Any-!Any-!Any&t=ns&cl=39,&st=adv&ob=Relevance'
+		
+		animeInGermany = self.GetDataForUrl(session=unogsSession, refererUrl=refererUrl, blobUrl=blobUrl)
+		
+		# Step 2
+		refererUrl = 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!Any-!Any-!Any-!Any&cl=39,&st=adv&ob=Relevance'
+		blobUrl = 'http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!Any-!Any-!Any-!Any&t=ns&cl=39,&st=adv&ob=Relevance'
+		
+		everythingInGermany = self.GetDataForUrl(session=unogsSession, refererUrl=refererUrl, blobUrl=blobUrl)
+		
+		# Step 3
+		with open('netflix-titles.json') as titles_file:
+			animeTitles = json.load(titles_file)
+		
+		animeTitles = set(animeTitles)
+		
+		# Remove anime titles returned by API in step 1 from list of titles to avoid duplicates
+		for anime in animeInGermany:
+			animeTitles.discard(anime[1])
+		
+		# Add movies/shows with matching title
+		for germanItem in everythingInGermany:
+			if germanItem[1] in animeTitles:
+				animeInGermany += [germanItem]
+		
+		return animeInGermany
+	
 class Daisuki(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
@@ -158,7 +242,8 @@ class Daisuki(AnimeSource):
 			'us': 'us',
 			'uk': 'gb',
 			'ca': 'ca',
-			'au': 'au'
+			'au': 'au',
+			'de': 'de'
 		}
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
