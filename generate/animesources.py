@@ -76,7 +76,8 @@ class Crunchyroll(AnimeSource):
 			"name": credentials['crunchyroll']['username'], 
 			"password": credentials['crunchyroll']['password']
 		}
-		crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = self.proxy)
+		if params["name"] != None and params["password"] != None:
+			crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = self.proxy)
 		blob = crSession.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = self.proxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
 		return re.findall(regex, blob.text)
@@ -127,7 +128,8 @@ class Netflix(AnimeSource):
 			'us': '78',
 			'uk': '46',
 			'ca': '33',
-			'au': '23'
+			'au': '23',
+			'de': '39'
 		}
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
@@ -148,7 +150,90 @@ class Netflix(AnimeSource):
 		dataBlob = unogsSession.get('http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&t=ns&cl=' + self.countryCodes[self.region] + ',&st=adv&ob=Relevance', headers = headers)
 		return json.loads(dataBlob.text)["ITEMS"]
 		
+
+class NetflixDE(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "netflix"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = unidecode(show[1].strip())
+			showUrl = "http://www.netflix.com/title/" + show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	# Multipage api request
+	def GetDataForUrl(self, session, refererUrl, blobUrl):
+		count = 0
+		page = 1
+		items = []
+		while True:
+			headers = {
+				'Referer': refererUrl if page == 1 else refererUrl + "&p=" + str(page),
+				'Accept': 'application/json, text/javascript, */*; q=0.01'
+			}
+			
+			dataBlob = session.get(blobUrl if page == 1 else blobUrl + "&p=" + str(page), headers = headers)
+			apiData = json.loads(dataBlob.text)
+			
+			if len(apiData["ITEMS"]) == 0:
+				break
+			
+			if page == 1:
+				count = int(apiData["COUNT"])
+			
+			items += apiData["ITEMS"]
+			
+			if len(items) >= count:
+				break
+			
+			page += 1
 		
+		return items
+	
+	def GetData(self):
+		unogsSession = requests.Session()
+		getCgiUrlBlob = unogsSession.get('http://unogs.com/search')
+		getCgiUrlRegex = 'var cgiurl=\'([^\&"]*)\';'
+		cgiUrl = re.findall(getCgiUrlRegex, getCgiUrlBlob.text)[0]
+		
+		# API only retuns half of all available anime titles.
+		# Workaround:
+		# Step 1: Query all anime available in Germany (in case it returns more in the future)
+		# Step 2: Query everything available in Germany
+		# Step 3: Compare data from step 2 with netflix-titles.json and add anime titles to data from step 1
+		
+		# Step 1
+		animeCategories = "10695,11146,2653,2729,3063,413820,452,6721,7424,9302"
+		refererUrl = 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!' + animeCategories + '-!Any-!Any-!Any&cl=39,&st=adv&ob=Relevance'
+		blobUrl = 'http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!' + animeCategories + '-!Any-!Any-!Any&t=ns&cl=39,&st=adv&ob=Relevance'
+		
+		animeInGermany = self.GetDataForUrl(session=unogsSession, refererUrl=refererUrl, blobUrl=blobUrl)
+		
+		# Step 2
+		refererUrl = 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!Any-!Any-!Any-!Any&cl=39,&st=adv&ob=Relevance'
+		blobUrl = 'http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!Any-!Any-!Any-!Any&t=ns&cl=39,&st=adv&ob=Relevance'
+		
+		everythingInGermany = self.GetDataForUrl(session=unogsSession, refererUrl=refererUrl, blobUrl=blobUrl)
+		
+		# Step 3
+		with open('netflix-titles.json') as titles_file:
+			animeTitles = json.load(titles_file)
+		
+		animeTitles = set(animeTitles)
+		
+		# Remove anime titles returned by API in step 1 from list of titles to avoid duplicates
+		for anime in animeInGermany:
+			animeTitles.discard(anime[1])
+		
+		# Add movies/shows with matching title
+		for germanItem in everythingInGermany:
+			if germanItem[1] in animeTitles:
+				animeInGermany += [germanItem]
+		
+		return animeInGermany
+	
 class Daisuki(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
@@ -157,7 +242,8 @@ class Daisuki(AnimeSource):
 			'us': 'us',
 			'uk': 'gb',
 			'ca': 'ca',
-			'au': 'au'
+			'au': 'au',
+			'de': 'de'
 		}
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
@@ -259,3 +345,101 @@ class AnimeNetwork(AnimeSource):
 			print(letter)
 			results += re.findall(regex, blob.text, re.M)
 		return results
+
+class Netzkino(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "netzkino"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show["title"]
+			showUrl = "http://www.netzkino.de/#!/anime/" + show["slug"]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	def GetData(self):
+		url = "http://api.netzkino.de.simplecache.net/capi-2.0a/categories/asiakino.json?d=www&l=de-DE&v=unknown-debugBuild"
+		data = requests.get(url, proxies = self.proxy).json()
+		
+		results = []
+		
+		posts = data["posts"]
+		for post in posts:
+			categories = post["categories"]
+			if 7961 in categories:
+				results += [post]
+		
+		return results
+
+class AnimeOnDemand(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "animeondemand"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show[0]
+			showUrl = "https://www.anime-on-demand.de" + show[1]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	def GetData(self):
+		url = "https://www.anime-on-demand.de/animes"
+		blob = requests.get(url, proxies = self.proxy)
+		
+		regex = '<h3 class=\"animebox-title\">(.*?)</h3>[\n\s\S]*?<a href=\"(.*?)\">(zur Serie|zum Film)</a>'
+		return re.findall(regex, blob.text, re.M)
+
+class MyVideo(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "myvideo"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show["title"].strip()
+			if show["itemType"] == "video":
+				subtitle = show.get("subtitle", None)
+				if subtitle != None:
+					showName += " - " + subtitle
+				linkTarget = show["href"]
+			else:
+				linkTarget = show["linkTarget"]
+			showUrl = "http://www.myvideo.de" + linkTarget
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		pageIds = ["5922", "62962"]
+		for pageId in pageIds:
+			offset = 0
+			while True:
+				url = 'http://www.myvideo.de/_partial/sushibar/' + pageId + '?ajaxoffset=' + str(offset) + '&_format=json'
+				blob = requests.get(url, proxies = self.proxy)
+				pageItems = blob.json()["items"]
+				results += [item for item in pageItems if item["itemType"] == "video" or item["itemType"] == "tvseries"]
+				
+				if len(pageItems) < 12:
+					break
+				
+				offset += len(pageItems)
+		return results
+
+class Clipfish(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'de', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "clipfish"
+	
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = show[1]
+			showUrl = show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	
+	def GetData(self):
+		url = "http://www.clipfish.de/special/anime/alle-serien/"
+		blob = requests.get(url, proxies = self.proxy)
+		
+		regex = '<li id="cf-video-item_[0-9]*?">[\s]*?<a target=\"_top\" href=\"(.*?)\" title=\"(.*?)\">'
+		return re.findall(regex, blob.text, re.M)

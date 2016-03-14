@@ -49,3 +49,4 @@ generate.zip
 !generate/title-map.json
 !generate/alternates.json
 !generate/proxies-template.json
+!generate/netflix-titles.json
