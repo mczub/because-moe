@@ -9,6 +9,7 @@ from unidecode import unidecode
 from urllib import parse
 from azure.storage.blob import BlobService
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 transtable = {ord(c): None for c in string.punctuation}
 def compare(first, second):
@@ -95,6 +96,25 @@ class Funimation(AnimeSource):
 		blob = requests.get('http://www.funimation.com/videos/episodes', proxies = self.proxy)
 		regex = '<a class=\"fs16 bold\" href=\"([^\"]*)\">([^\"]*)</a>'
 		return re.findall(regex, blob.text)
+		
+class FunimationNow(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "funimation-now"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		for show in self.shows:
+			showName = unidecode(show['title'].strip())
+			showUrl = 'http://www.funimationnow.com/'
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		for curIndex in range(0, 2):
+			blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=200&offset=' + str(curIndex * 200) + '&territory=' + self.region)
+			list = ET.fromstring(blob.text)
+			for show in list.iterfind('item'):
+				results.append({'title': show.find('title').text})
+		return results
 		
 class Hulu(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
