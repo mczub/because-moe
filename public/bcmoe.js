@@ -46,7 +46,7 @@ var popImg = {
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork"], 
-	'uk': ["crunchyroll", "netflix", "viewster", "daisuki", "animax"],
+	'uk': ["crunchyroll", "funimation-now", "netflix", "viewster", "daisuki", "animax"],
 	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee"]
 }
 var jsons = {
