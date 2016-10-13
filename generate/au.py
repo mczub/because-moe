@@ -8,7 +8,7 @@ from azure.storage.blob import BlobService
 from datetime import datetime
 import animesources
 
-shows = [{"name": "Fullmetal Alchemist: Brotherhood", "sites": {"netflix": "http://www.netflix.com/title/70204981"}}]
+shows = []
 
 with open('title-map.json') as titlemap_file:
 	titlemap = json.load(titlemap_file)

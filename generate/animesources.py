@@ -156,16 +156,13 @@ class Netflix(AnimeSource):
 			showUrl = "http://www.netflix.com/title/" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
-		unogsSession = requests.Session()
-		getCgiUrlBlob = unogsSession.get('http://unogs.com/search')
-		getCgiUrlRegex = 'var cgiurl=\'([^\&"]*)\';'
-		
-		cgiUrl = re.findall(getCgiUrlRegex, getCgiUrlBlob.text)[0]
+		with open('credentials.json') as creds_file:
+			credentials = json.load(creds_file)
 		headers = {
-			'Referer': 'http://unogs.com/search/?q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&cl=' + self.countryCodes[self.region] + ',&st=adv&ob=Relevance',
-			'Accept': 'application/json, text/javascript, */*; q=0.01'
+			"X-Mashape-Key": credentials['mashape'],
+			"Accept": "application/json"
 		}
-		dataBlob = unogsSession.get('http://unogs.com' + cgiUrl + '&q=-!1900,2016-!0,5-!0,10-!7424-!Any-!Any-!Any&t=ns&cl=' + self.countryCodes[self.region] + ',&st=adv&ob=Relevance', headers = headers)
+		dataBlob = requests.get("https://unogs-unogs-v1.p.mashape.com/api.cgi?q=-!1900,3000-!0,5-!0,10-!10695%2C11146%2C2653%2C2729%2C3063%2C413820%2C452%2C6721%2C7424%2C9302-!Any-!Any-!Any-!gt0&t=ns&cl=all&st=adv&ob=Relevance&p=1&sa=and&cl=" + self.countryCodes[self.region], headers = headers)
 		return json.loads(dataBlob.text)["ITEMS"]
 		
 		
