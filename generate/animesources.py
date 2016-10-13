@@ -110,7 +110,7 @@ class FunimationNow(AnimeSource):
 	def GetData(self):
 		results = []
 		for curIndex in range(0, 2):
-			blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=200&offset=' + str(curIndex * 200) + '&territory=' + self.region)
+			blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=200&offset=' + str(curIndex * 200) + '&territory=' + self.region, proxies = self.proxy)
 			list = ET.fromstring(blob.text)
 			for show in list.iterfind('item'):
 				results.append({'title': show.find('title').text})
@@ -162,7 +162,7 @@ class Netflix(AnimeSource):
 			"X-Mashape-Key": credentials['mashape'],
 			"Accept": "application/json"
 		}
-		dataBlob = requests.get("https://unogs-unogs-v1.p.mashape.com/api.cgi?q=-!1900,3000-!0,5-!0,10-!10695%2C11146%2C2653%2C2729%2C3063%2C413820%2C452%2C6721%2C7424%2C9302-!Any-!Any-!Any-!gt0&t=ns&cl=all&st=adv&ob=Relevance&p=1&sa=and&cl=" + self.countryCodes[self.region], headers = headers)
+		dataBlob = requests.get("https://unogs-unogs-v1.p.mashape.com/api.cgi?q=-!1900,3000-!0,5-!0,10-!10695%2C11146%2C2653%2C2729%2C3063%2C413820%2C452%2C6721%2C7424%2C9302-!Any-!Any-!Any-!gt0&t=ns&st=adv&ob=Relevance&p=1&sa=and&cl=" + self.countryCodes[self.region], headers = headers)
 		return json.loads(dataBlob.text)["ITEMS"]
 		
 		
