@@ -555,7 +555,7 @@ body {
 @media screen and (min-width: 1200px) {
   .results-container {
     top: 90px;
-    height: calc(100% - 10px);
+    height: calc(100% - 120px);
   }
 }
 .results-container::-webkit-scrollbar {
