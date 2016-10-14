@@ -21,6 +21,9 @@ app.get('/uk', function(req, res){
 app.get('/au', function(req, res){
 	res.render('index', {region: 'au', query: (req.query.q) ? req.query.q : ""});
 })
+app.get('/de', function(req, res){
+	res.render('index', {region: 'de', query: (req.query.q) ? req.query.q : ""});
+})
 app.get('/json/:country', function(req,res){
 	var jsonUrl = "https://bcmoe.blob.core.windows.net/assets/" + req.params.country + ".json";
 	//res.setHeader('Cache-Control', 'public, max-age=432000');
