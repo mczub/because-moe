@@ -203,7 +203,12 @@ class Viewster(AnimeSource):
 		headers = {'Auth-token': parse.unquote(api_token)}
 		anime_blob = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=1&genreId=58', headers = headers, proxies = self.proxy)
 		anime_blob2 = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=2&genreId=58', headers = headers, proxies = self.proxy)
-		return json.loads(anime_blob.text)['Items'] + json.loads(anime_blob2.text)['Items']
+		simul_blob = requests.get('https://public-api.viewster.com/series?pageSize=100&pageIndex=1&genreId=67', headers = headers, proxies = self.proxy)
+		try: 
+			simul_items = json.loads(simul_blob.text)['Items']
+			return json.loads(anime_blob.text)['Items'] + json.loads(anime_blob2.text)['Items'] + simul_items
+		except:
+			return json.loads(anime_blob.text)['Items'] + json.loads(anime_blob2.text)['Items']
 		
 class AnimeLab(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
