@@ -64,8 +64,7 @@ class Crunchyroll(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[0].strip())
 			showUrl = "http://www.crunchyroll.com" + show[1]
@@ -92,8 +91,7 @@ class Funimation(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[1].strip())
 			showUrl = show[0]
@@ -110,8 +108,7 @@ class FunimationNow(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
 			showUrl = 'http://www.funimationnow.com/'
@@ -132,8 +129,7 @@ class Hulu(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['show']['name'].strip())
 			showUrl = 'http://www.hulu.com/' + show['show']['canonical_name']
@@ -164,8 +160,7 @@ class Netflix(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[1].strip())
 			showUrl = "http://www.netflix.com/title/" + show[0]
@@ -194,8 +189,7 @@ class Daisuki(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
@@ -212,8 +206,7 @@ class Viewster(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['Title'].strip())
 			showUrl = "https://www.viewster.com/serie/" + show['OriginId']
@@ -238,8 +231,7 @@ class AnimeLab(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['name'].strip())
 			showUrl = "https://www.animelab.com/shows/" + show['slug']
@@ -256,8 +248,7 @@ class Animax(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			#print(show)
 			showName = unidecode(show[1].strip())
@@ -296,8 +287,7 @@ class AnimeNetwork(AnimeSource):
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
-			print('0 shows found for ' + self.name + ', aborting')
-			sys.exit()
+			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[0].strip().replace('&#39;', '\''))
 			showUrl = "http://www.theanimenetwork.com" + show[1]
