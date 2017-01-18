@@ -22,7 +22,7 @@ with open('proxies.json') as proxies_file:
 	proxy = proxy_data['uk']
 sources = [
 	animesources.Crunchyroll(titlemap, multiseason, 'uk', proxy), 
-	animesources.FunimationNow(titlemap, multiseason, 'gb', proxy),
+	animesources.Funimation(titlemap, multiseason, 'gb', proxy),
 	animesources.Netflix(titlemap, multiseason, 'uk', proxy), 
 	animesources.Daisuki(titlemap, multiseason, 'uk', proxy), 
 	animesources.Viewster(titlemap, multiseason, 'uk', proxy),

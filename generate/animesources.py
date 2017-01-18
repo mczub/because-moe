@@ -84,10 +84,10 @@ class Crunchyroll(AnimeSource):
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
 		return re.findall(regex, blob.text)
 		
-class Funimation(AnimeSource):
+class FunimationOld(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
-		self.name = "funimation"
+		self.name = "funimation-old"
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
@@ -101,17 +101,17 @@ class Funimation(AnimeSource):
 		regex = '<a class=\"fs16 bold\" href=\"([^\"]*)\">([^\"]*)</a>'
 		return re.findall(regex, blob.text)
 		
-class FunimationNow(AnimeSource):
+class Funimation(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
-		self.name = "funimation-now"
+		self.name = "funimation"
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		if (len(self.shows) == 0):
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
-			showUrl = 'http://www.funimationnow.com/'
+			showUrl = 'http://www.funimation.com/shows/' + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
 		results = []
@@ -119,7 +119,7 @@ class FunimationNow(AnimeSource):
 			blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=200&offset=' + str(curIndex * 200) + '&territory=' + self.region, proxies = self.proxy)
 			list = ET.fromstring(blob.text)
 			for show in list.iterfind('item'):
-				results.append({'title': show.find('title').text})
+				results.append({'title': show.find('title').text, 'id': show.find('id').text})
 		return results
 		
 class Hulu(AnimeSource):
@@ -270,12 +270,12 @@ class Hanabee(AnimeSource):
 		for show in self.shows:
 			#print(show)
 			showName = unidecode(show[1].strip())
-			showUrl = "http://hanabee.com.au" + show[0]
+			showUrl = "http://hanabee.tv" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
 		results = []
 		for curIndex in range(0, 5):
-			blob = requests.get('http://hanabee.com.au/shows/?vod-filter-button=on&start=' + str(curIndex * 10) , proxies = self.proxy)
+			blob = requests.get('http://hanabee.tv/shows/?vod-filter-button=on&start=' + str(curIndex * 10) , proxies = self.proxy)
 			regex = '<h3><a href=\"([^\"]*)\" >([^\"]*)</a></h3>'
 			results += re.findall(regex, blob.text)
 		return results
