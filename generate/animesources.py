@@ -237,9 +237,10 @@ class AnimeLab(AnimeSource):
 			showUrl = "https://www.animelab.com/shows/" + show['slug']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
-		shows_blob1 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=0', proxies = self.proxy)
-		shows_blob2 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=1', proxies = self.proxy)
-		return json.loads(shows_blob1.text)['list'] + json.loads(shows_blob2.text)['list']
+		shows_blob0 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=0', proxies = self.proxy)
+		shows_blob1 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=1', proxies = self.proxy)
+		shows_blob2 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=2', proxies = self.proxy)
+		return json.loads(shows_blob0.text)['list'] + json.loads(shows_blob1.text)['list'] + json.loads(shows_blob2.text)['list'] 
 		
 class Animax(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
