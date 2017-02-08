@@ -44,10 +44,10 @@ var popImg = {
 	"Hunter x Hunter" : "./shows/hunter-x-hunter.png"
 }
 var providers = {
-	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork"], 
-	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork"], 
-	'uk': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animax"],
-	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee"]
+	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv"], 
+	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork", "tubitv"], 
+	'uk': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animax", "tubitv"],
+	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee", "tubitv"]
 }
 var jsons = {
 	'us': './json/us',
