@@ -55,6 +55,9 @@ input {
 .service-animenetwork {
   background-image: url("services/animenetwork-800.png");
 }
+.service-tubitv {
+  background-image: url("services/tubitv-800.png");
+}
 body {
   background-color: #333333;
   /*background-image:url('./madoka.png');*/

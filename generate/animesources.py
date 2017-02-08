@@ -302,3 +302,20 @@ class AnimeNetwork(AnimeSource):
 			print(letter)
 			results += re.findall(regex, blob.text, re.M)
 		return results
+
+class TubiTV(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "tubitv"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = self.shows[show]['title']
+			showTypes = {'v': 'video', 's': 'series'}
+			showUrl = 'http://tubitv.com/' + showTypes[self.shows[show]['type']] + '/' + str(int(show))
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		blob = requests.get('http://tubitv.com/oz/containers/anime/content?cursor=0&limit=1000', proxies = self.proxy)
+		return json.loads(blob.text)['contents']
