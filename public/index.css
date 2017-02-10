@@ -648,6 +648,12 @@ body {
   width: 18px;
   height: 18px;
 }
+.viewall-container{
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 20px;
+}
 .footer-container {
   height: 300px;
 }
