@@ -7,7 +7,6 @@ from abc import ABCMeta, abstractmethod
 import string
 from unidecode import unidecode
 from urllib import parse
-from azure.storage.blob import BlobService
 from datetime import datetime
 import xml.etree.ElementTree as ET
 
@@ -319,3 +318,23 @@ class TubiTV(AnimeSource):
 	def GetData(self):
 		blob = requests.get('http://tubitv.com/oz/containers/anime/content?cursor=0&limit=1000', proxies = self.proxy)
 		return json.loads(blob.text)['contents']
+
+class AnimeStrike(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "animestrike"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show[0].strip())
+			showUrl = show[1]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		for curIndex in range(1, 10):
+			blob = requests.get('https://www.amazon.com/s/ref=sr_pg_2?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_subscription_id%3A16182082011&bbn=2858778011&ie=UTF8&qid=1496287600&page=' + str(curIndex) , proxies = self.proxy)
+			regex = '<a class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal" title="([^\"]*)" href="([^\"]*)"'
+			results += re.findall(regex, blob.text)
+		return results
