@@ -26,7 +26,8 @@ sources = [
 	animesources.Daisuki(titlemap, multiseason), 
 	animesources.Viewster(titlemap, multiseason),
 	animesources.TubiTV(titlemap, multiseason),
-	animesources.AnimeStrike(titlemap, multiseason)
+	animesources.AnimeStrike(titlemap, multiseason),
+	animesources.HiDive(titlemap, multiseason)
 	]
 for source in sources:
 	source.UpdateShowList(shows)

@@ -26,7 +26,7 @@ sources = [
 	animesources.Daisuki(titlemap, multiseason, 'au', proxy), 
 	animesources.Viewster(titlemap, multiseason, 'au', proxy), 
 	animesources.AnimeLab(titlemap, multiseason, 'au', proxy),
-	animesources.Hanabee(titlemap, multiseason, 'au', proxy)]
+	animesources.HiDive(titlemap, multiseason, 'au', proxy)]
 for source in sources:
 	source.UpdateShowList(shows)
 	print(source.GetName() + ': ' + str(len(shows)))
