@@ -27,7 +27,8 @@ sources = [
 	animesources.Daisuki(titlemap, multiseason, 'ca', proxy), 
 	animesources.Viewster(titlemap, multiseason, 'ca', proxy),
 	animesources.AnimeNetwork(titlemap, multiseason, 'ca', proxy),
-	animesources.TubiTV(titlemap, multiseason, 'ca', proxy)]
+	animesources.TubiTV(titlemap, multiseason, 'ca', proxy),
+	animesources.HiDive(titlemap, multiseason, 'ca', proxy)]
 for source in sources:
 	source.UpdateShowList(shows)
 	print(source.GetName() + ': ' + str(len(shows)))

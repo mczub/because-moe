@@ -114,11 +114,10 @@ class Funimation(AnimeSource):
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
 		results = []
-		for curIndex in range(0, 2):
-			blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=200&offset=' + str(curIndex * 200) + '&territory=' + self.region, proxies = self.proxy)
-			list = ET.fromstring(blob.text)
-			for show in list.iterfind('item'):
-				results.append({'title': show.find('title').text, 'id': show.find('id').text})
+		blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=500&offset=0&territory=' + self.region, proxies = self.proxy)
+		list = ET.fromstring(blob.text)
+		for show in list.iterfind('item'):
+			results.append({'title': show.find('title').text, 'id': show.find('id').text})
 		return results
 		
 class Hulu(AnimeSource):
@@ -334,7 +333,32 @@ class AnimeStrike(AnimeSource):
 	def GetData(self):
 		results = []
 		for curIndex in range(1, 10):
-			blob = requests.get('https://www.amazon.com/s/ref=sr_pg_2?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_subscription_id%3A16182082011&bbn=2858778011&ie=UTF8&qid=1496287600&page=' + str(curIndex) , proxies = self.proxy)
+			headers = {
+				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+			}
+			blob = requests.get('https://www.amazon.com/s/ref=sr_pg_2?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_subscription_id%3A16182082011&bbn=2858778011&ie=UTF8&page=' + str(curIndex) , headers = headers, proxies = self.proxy)
 			regex = '<a class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal" title="([^\"]*)" href="([^\"]*)"'
 			results += re.findall(regex, blob.text)
+		return results
+
+class HiDive(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "hidive"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show[1].strip().replace('&#39;', '\''))
+			showUrl = show[0]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		blob_tv = requests.get('https://www.hidive.com/tv', proxies = self.proxy)
+		regex_tv = '<div class=\"player\">[\n\s]*<a href=\"([^\"]*)\"[\s\S]*?<h3 title=\"([^\"]*)\">'
+		results += re.findall(regex_tv, blob_tv.text, re.M)
+		blob_movies = requests.get('https://www.hidive.com/movies', proxies = self.proxy)
+		regex_movies = '<div class=\"player\">[\n\s]*<a href=\"([^\"]*)\"[\s\S]*?<h3 title=\"([^\"]*)\">'
+		results += re.findall(regex_movies, blob_movies.text, re.M)
 		return results
