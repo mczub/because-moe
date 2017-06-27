@@ -6,18 +6,10 @@ var app = express();
 	res.send('Hello World!');
 });*/
 var regions = ['us', 'ca', 'au', 'uk'];
-app.enable('trust proxy');
 app.set('view engine', 'jade');
 app.get('/', function(req, res){
-	var ip = req.ip;
 	var region = 'us';
-	request('http://freegeoip.net/json/' + ip, function(error, response, body){
-		var data = JSON.parse(body);
-		if (data.country_code && regions.indexOf(data.country_code.toLowerCase()) !== -1){
-			region = data.country_code.toLowerCase();
-		}
-		res.render('index', {region: region, query: (req.query.q) ? req.query.q : ""});
-	});
+	res.render('index', {region: region, query: (req.query.q) ? req.query.q : ""});
 })
 app.get('/us', function(req, res){
 	res.render('index', {region: 'us', query: (req.query.q) ? req.query.q : ""});
