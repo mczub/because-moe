@@ -1,26 +1,25 @@
-link(rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" type="text/css")
-link(rel="stylesheet" media="screen" href="./index.css" type="text/css")
-link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon') 
-script(type='text/javascript').
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	ga('create', 'UA-67306014-1', 'auto');
-	ga('send', 'pageview');
-
-script(type='text/javascript').
-	var region =!{JSON.stringify(region)}
-	var query =!{JSON.stringify(query)}
-script(src="https://code.jquery.com/jquery-2.2.4.min.js")
-script(src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js")
-script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js")
-script(src="./bcmoe.js")
-meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
-meta(name="description" content="BECAUSE.MOE - a search engine for legal anime streams")
+doctype html
 html
 	head
+		meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+		link(rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" type="text/css")
+		link(rel="stylesheet" media="screen" href="./index.css" type="text/css")
+		link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
+		script(type='text/javascript').
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-67306014-1', 'auto');
+			ga('send', 'pageview');
+		script(type='text/javascript').
+			var region = !{JSON.stringify(region)}
+			var query = !{JSON.stringify(query)}
+		script(src="https://code.jquery.com/jquery-3.2.1.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js")
+		script(src="./bcmoe.js")
+		meta(name="description" content="BECAUSE.MOE - a search engine for legal anime streams")
 		title BECAUSE.MOE - anime streaming search engine
 	body
 		.header
@@ -40,19 +39,19 @@ html
 					option.uk UK
 					option.au AU
 			.help-icon
-				a.twitter(href="http://twitter.com/becausemoe" target="_blank")
+				a.twitter(href="https://twitter.com/becausemoe" target="_blank")
 		.showcase-container
 		.results-container
-		.help-container
+		//-.help-container
 			.info-container
-				//.info-item
+				.info-item
 					img.tag(src="./tags/current-round.png")
 					span.desc Current Season
 			.footer-left
-				//p.mobile-hide Results may only be valid in !{region.toUpperCase()}
-				//p.mobile-hide See something wrong? #[a(href="http://goo.gl/forms/honnymv12Y" target='_blank') Let me know!]
+				p.mobile-hide Results may only be valid in !{region.toUpperCase()}
+				p.mobile-hide See something wrong? #[a(href="http://goo.gl/forms/honnymv12Y" target='_blank') Let me know!]
 			.footer-right
-				//p.mobile-hide Created by #[a(href="http://twitter.com/mczub" target='_blank') @mczub]
-				//p.mobile-hide.last-updated 
-		.footer-container
+				p.mobile-hide Created by #[a(href="http://twitter.com/mczub" target='_blank') @mczub]
+				p.mobile-hide.last-updated 
+		//-.footer-container
 			
