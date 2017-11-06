@@ -24,7 +24,6 @@ sources = [
 	animesources.Crunchyroll(titlemap, multiseason, 'uk', proxy), 
 	animesources.Funimation(titlemap, multiseason, 'gb', proxy),
 	animesources.Netflix(titlemap, multiseason, 'uk', proxy), 
-	animesources.Daisuki(titlemap, multiseason, 'uk', proxy), 
 	animesources.Viewster(titlemap, multiseason, 'uk', proxy),
 	animesources.Animax(titlemap, multiseason, 'uk', proxy),
 	animesources.HiDive(titlemap, multiseason, 'uk', proxy)]
