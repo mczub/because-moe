@@ -64,6 +64,9 @@ input {
 .service-hidive {
   background-image: url("services/hidive-800.png");
 }
+.service-yahoo {
+  background-image: url("services/yahoo-800.png");
+}
 body {
   background-color: #333333;
   /*background-image:url('./madoka.png');*/
