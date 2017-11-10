@@ -362,3 +362,22 @@ class HiDive(AnimeSource):
 		regex_movies = '<div class=\"player\">[\n\s]*<a href=\"([^\"]*)\"[\s\S]*?<h3 title=\"([^\"]*)\">'
 		results += re.findall(regex_movies, blob_movies.text, re.M)
 		return results
+
+class YahooView(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "yahoo"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show['title'].strip().replace('&#39;', '\''))
+			showUrl = "https://view.yahoo.com/show/" + show['id']
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		blob = requests.get('https://view.yahoo.com/browse/tv/genre/anime/shows', proxies = self.proxy)
+		regex = '\"seriesListItems\":(.*)},\"StreamStore\"'
+		resultsJson = re.findall(regex, blob.text)[0]
+		results = json.loads(resultsJson)
+		return results
