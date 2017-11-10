@@ -31,10 +31,10 @@ var bgs = [
 	},
 ]
 
-var popular = ["attack on titan", "fullmetal alchemist: brotherhood", "monthly girls' nozaki-kun", "hunter x hunter", "eureka seven", 
+var popular = ["my hero academia", "fullmetal alchemist: brotherhood", "monthly girls' nozaki-kun", "hunter x hunter", "eureka seven", 
 	"one punch man", "love live! school idol project", "dragon ball z"]
 var popImg = {
-	"Attack on Titan": "./shows/attack-on-titan.png",
+	"My Hero Academia": "./shows/my-hero-academia.png",
 	"Dragon Ball Z" : "./shows/dragon-ball-z.png",
 	"One Punch Man" : "./shows/one-punch-man.png",
 	"Eureka Seven" : "./shows/eureka-seven.png",
