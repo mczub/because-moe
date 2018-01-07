@@ -24,7 +24,7 @@ sources = [
 	animesources.Netflix(titlemap, multiseason), 
 	animesources.Viewster(titlemap, multiseason),
 	animesources.TubiTV(titlemap, multiseason),
-	animesources.AnimeStrike(titlemap, multiseason),
+	animesources.AmazonPrime(titlemap, multiseason),
 	animesources.HiDive(titlemap, multiseason),
 	animesources.YahooView(titlemap, multiseason)
 	]
@@ -42,10 +42,10 @@ blob = {"lastUpdated": datetime.utcnow().isoformat(), "shows": shows}
 out_file = open('us.json', 'w')
 json.dump(blob, out_file)
 out_file.close()
-azure_blob.put_block_blob_from_path(
-	'assets',
-	'us.json',
-	'us.json',
-	x_ms_blob_content_type='application/json'
-)
+#azure_blob.put_block_blob_from_path(
+#	'assets',
+#	'us.json',
+#	'us.json',
+#	x_ms_blob_content_type='application/json'
+#)
 print('done')
