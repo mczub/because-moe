@@ -237,10 +237,11 @@ class AnimeLab(AnimeSource):
 			showUrl = "https://www.animelab.com/shows/" + show['slug']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
-		shows_blob0 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=0', proxies = self.proxy)
-		shows_blob1 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=1', proxies = self.proxy)
-		shows_blob2 = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=2', proxies = self.proxy)
-		return json.loads(shows_blob0.text)['list'] + json.loads(shows_blob1.text)['list'] + json.loads(shows_blob2.text)['list'] 
+		results = []
+		for curIndex in range(0, 5):
+			blob = requests.get('https://www.animelab.com/api/shows/all?limit=100&page=' + str(curIndex), proxies = self.proxy)
+			results += json.loads(blob.text)['list']
+		return results
 		
 class Animax(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
@@ -397,12 +398,16 @@ class AmazonPrime(AnimeSource):
 			showUrl = show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
+		urls = {
+			'us': 'https://www.amazon.com/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_theme_browse-bin%3A2650364011%2Cp_85%3A2470955011%2Cp_n_entity_type%3A14069184011%7C14069185011&bbn=2858778011&ie=UTF8&qid=1515170443&rnid=14069183011&page=',
+			'uk': 'https://www.amazon.co.uk/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A3280626031%2Cp_n_theme_browse-bin%3A3046743031%2Cp_n_ways_to_watch%3A7448660031%2Cp_n_entity_type%3A9739952031%7C9739955031&bbn=3280626031&ie=UTF8&qid=1515297590&rnid=9739949031&page='
+		}
 		results = []
 		for curIndex in range(1, 15):
 			headers = {
 				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36'
 			}
-			blob = requests.get('https://www.amazon.com/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_theme_browse-bin%3A2650364011%2Cp_85%3A2470955011%2Cp_n_entity_type%3A14069184011%7C14069185011&bbn=2858778011&ie=UTF8&qid=1515170443&rnid=14069183011&page=' + str(curIndex) , headers = headers, proxies = self.proxy)
+			blob = requests.get(urls[self.region] + str(curIndex) , headers = headers, proxies = self.proxy)
 			regex = '<a class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal" title="([^\"]*)" href="([^\"]*)"'
 			results += re.findall(regex, blob.text)
 		return results
