@@ -332,11 +332,11 @@ class AnimeStrike(AnimeSource):
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
 		results = []
-		for curIndex in range(1, 10):
+		for curIndex in range(1, 15):
 			headers = {
 				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 			}
-			blob = requests.get('https://www.amazon.com/s/ref=sr_pg_2?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_subscription_id%3A16182082011&bbn=2858778011&ie=UTF8&page=' + str(curIndex) , headers = headers, proxies = self.proxy)
+			blob = requests.get('https://www.amazon.com/s/ref=sr_ex_n_1?rh=n%3A2858778011%2Cp_n_subscription_id%3Asaikindo&bbn=2858778011&ie=UTF8&qid=1512620557&page=' + str(curIndex) , headers = headers, proxies = self.proxy)
 			regex = '<a class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal" title="([^\"]*)" href="([^\"]*)"'
 			results += re.findall(regex, blob.text)
 		return results
@@ -380,4 +380,27 @@ class YahooView(AnimeSource):
 		regex = '\"seriesListItems\":(.*)},\"StreamStore\"'
 		resultsJson = re.findall(regex, blob.text)[0]
 		results = json.loads(resultsJson)
+		return results
+
+class AmazonPrime(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "amazon"
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show[0].strip())
+			showUrl = show[1]
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		results = []
+		for curIndex in range(1, 15):
+			headers = {
+				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36'
+			}
+			blob = requests.get('https://www.amazon.com/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_theme_browse-bin%3A2650364011%2Cp_85%3A2470955011%2Cp_n_entity_type%3A14069184011%7C14069185011&bbn=2858778011&ie=UTF8&qid=1515170443&rnid=14069183011&page=' + str(curIndex) , headers = headers, proxies = self.proxy)
+			regex = '<a class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal" title="([^\"]*)" href="([^\"]*)"'
+			results += re.findall(regex, blob.text)
 		return results

@@ -24,7 +24,7 @@ sources = [
 	animesources.Netflix(titlemap, multiseason), 
 	animesources.Viewster(titlemap, multiseason),
 	animesources.TubiTV(titlemap, multiseason),
-	animesources.AnimeStrike(titlemap, multiseason),
+	animesources.AmazonPrime(titlemap, multiseason),
 	animesources.HiDive(titlemap, multiseason),
 	animesources.YahooView(titlemap, multiseason)
 	]
