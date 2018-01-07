@@ -42,6 +42,8 @@ class AnimeSource:
 			showNames[0] = self.titleMap[showName]
 		if (self.name in self.titleMap):
 			if (showNames[0] in self.titleMap[self.name]):
+				if (self.titleMap[self.name][showNames[0]] == ""):
+					return
 				showNames[0] = self.titleMap[self.name][showNames[0]]
 		if (self.name in self.multiSeason):
 			if (showNames[0] in self.multiSeason[self.name]):

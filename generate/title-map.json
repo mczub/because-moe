@@ -255,7 +255,7 @@
 	"viewster":{
 		"K-On!": "K-On! Season 1"
 	},
-	"animestrike":{
+	"amazon":{
 		"Accel World, Season 1, Vol. 1 (English Dubbed)": "Accel World Season 1, Vol. 1 (English Dubbed)",
 		"Accel World Season 1, Vol. 2": "Accel World Season 1, Vol. 2 (English Dubbed)",
 		"Akira (Original Japanese Version)": "Akira",
@@ -335,7 +335,7 @@
 		"Soul Eater (Original Japanese Version)": "Soul Eater",
 		"Space Dandy (Original Japanese Version)": "Space Dandy",
 		"Spice & Wolf" : "Spice and Wolf (English Dubbed)",
-		"Spice & Wolf (Original Japanese Version)": "Spice and Wolf",
+		"Spice &amp; Wolf (Original Japanese Version)": "Spice and Wolf",
 		"Spice and Wolf Season 1(English Dubbed)": "Spice and Wolf (English Dubbed)",
 		"Steamboy [Subtitled]": "Steamboy",
 		"Sword Oratoria: Is it Wrong to Try to Pick Up Girls in a Dungeon? On the Side - Season 1": "Sword Oratoria: Is it Wrong to Try to Pick Up Girls in a Dungeon? On the Side",
@@ -344,6 +344,10 @@
 		"The Familiar of Zero: \"Rondo\" of Princesses": "Familiar of Zero: Rondo of Princesses",
 		"The Familiar of Zero: Knight of the Twin Moons": "Familiar of Zero: Knight of the Twin Moons",
 		"The Pet Girl of Sakurasou Season 1": "The Pet Girl of Sakurasou",
-		"Urara Meirocho- Season 1": "Urara Meirocho"
+		"Urara Meirocho- Season 1": "Urara Meirocho",
+		"Land of the Lustrous - Season 1": "Land of the Lustrous",
+		"Season 1": "",
+		"Season 2": "",
+		"Season 3": ""
 	}
 }
