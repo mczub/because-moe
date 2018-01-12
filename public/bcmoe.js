@@ -1,31 +1,31 @@
 var bgs = [
 	{
-		cssUrl: "url('./bg/kotori.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png')",
 		color: "#2DBC5F",
 		text: "love live! school idol project"
 	},
 	{
-		cssUrl: "url('./bg/madoka.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/madoka.png')",
 		color: "#E48397",
 		text: "puella magi madoka magica"
 	},
 	{
-		cssUrl: "url('./bg/umaru.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/umaru.png')",
 		color: "#FA885C",
 		text: "himouto! umaru-chan"
 	},
 	{
-		cssUrl: "url('./bg/eureka.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/eureka.png')",
 		color: "#A2D0C2",
 		text: "eureka seven"
 	},
 	{
-		cssUrl: "url('./bg/shiro.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/shiro.png')",
 		color: "#713FA4",
 		text: "no game no life"
 	},
 	{
-		cssUrl: "url('./bg/rin.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/rin.png')",
 		color: "#B20B36",
 		text: "fate/stay night"
 	},
@@ -34,14 +34,14 @@ var bgs = [
 var popular = ["my hero academia", "fullmetal alchemist: brotherhood", "monthly girls' nozaki-kun", "land of the lustrous", "eureka seven", 
 	"mob psycho 100", "love live! school idol project", "dragon ball super"]
 var popImg = {
-	"My Hero Academia": "./shows/my-hero-academia.png",
-	"Dragon Ball Super" : "./shows/dragon-ball-super.png",
-	"Mob Psycho 100" : "./shows/mob-psycho-100.png",
-	"Eureka Seven" : "./shows/eureka-seven.png",
-	"Fullmetal Alchemist: Brotherhood": "./shows/full-metal-alchemist-brotherhood.png",
-	"Love Live! School Idol Project": "./shows/love-live.png",
-	"Monthly Girls' Nozaki-kun": "./shows/nozaki.png",
-	"Land of the Lustrous" : "./shows/land-of-the-lustrous.png"
+	"My Hero Academia": "https://bcmoe.blob.core.windows.net/shows/my-hero-academia.png",
+	"Dragon Ball Super" : "https://bcmoe.blob.core.windows.net/shows/dragon-ball-super.png",
+	"Mob Psycho 100" : "https://bcmoe.blob.core.windows.net/shows/mob-psycho-100.png",
+	"Eureka Seven" : "https://bcmoe.blob.core.windows.net/shows/eureka-seven.png",
+	"Fullmetal Alchemist: Brotherhood": "https://bcmoe.blob.core.windows.net/shows/full-metal-alchemist-brotherhood.png",
+	"Love Live! School Idol Project": "https://bcmoe.blob.core.windows.net/shows/love-live.png",
+	"Monthly Girls' Nozaki-kun": "https://bcmoe.blob.core.windows.net/shows/nozaki.png",
+	"Land of the Lustrous" : "https://bcmoe.blob.core.windows.net/shows/land-of-the-lustrous.png"
 }
 var providers = {
 	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "amazon", "hidive", "yahoo"], 
