@@ -5,27 +5,27 @@ var bgs = [
 		text: "love live! school idol project"
 	},
 	{
-		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/madoka.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/madoka.png')",
 		color: "#E48397",
 		text: "puella magi madoka magica"
 	},
 	{
-		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/umaru.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/umaru.png')",
 		color: "#FA885C",
 		text: "himouto! umaru-chan"
 	},
 	{
-		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/eureka.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/eureka.png')",
 		color: "#A2D0C2",
 		text: "eureka seven"
 	},
 	{
-		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/shiro.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/shiro.png')",
 		color: "#713FA4",
 		text: "no game no life"
 	},
 	{
-		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/kotori.png/rin.png')",
+		cssUrl: "url('https://bcmoe.blob.core.windows.net/backgrounds/rin.png')",
 		color: "#B20B36",
 		text: "fate/stay night"
 	},
