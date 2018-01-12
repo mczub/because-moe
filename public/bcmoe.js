@@ -50,10 +50,10 @@ var providers = {
 	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee", "tubitv", "hidive", "amazon"]
 }
 var jsons = {
-	'us': './json/us',
-	'ca': './json/ca',
-	'uk': './json/uk',
-	'au': './json/au',
+	'us': 'https://bcmoe.blob.core.windows.net/assets/us.json',
+	'ca': 'https://bcmoe.blob.core.windows.net/assets/ca.json',
+	'uk': 'https://bcmoe.blob.core.windows.net/assets/uk.json',
+	'au': 'https://bcmoe.blob.core.windows.net/assets/au.json',
 	'current': './current.json'
 }
 var shows = []
