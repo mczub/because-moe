@@ -12,7 +12,7 @@ import xml.etree.ElementTree as ET
 
 transtable = {ord(c): None for c in string.punctuation}
 def compare(first, second):
-	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == unidecode(second.lower()).translate(transtable).replace('  ', ' ')
+	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == second
 
 class AnimeSource:
 	__metaclass__ = ABCMeta
@@ -50,8 +50,9 @@ class AnimeSource:
 				showNames = showNames + self.multiSeason[self.name][showNames[0]]
 				#print(showNames)
 		for name in showNames:
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], name)), False)
-			if (type(match_index) == int):
+			translated_name = unidecode(name.lower()).translate(transtable).replace('  ', ' ')
+			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], translated_name)), False)
+			if (match_index != False):
 				showList[match_index]['sites'][self.name] = showUrl
 			else:
 				show_obj = {'name': name, 'sites': {self.name: showUrl}}
