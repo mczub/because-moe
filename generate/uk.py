@@ -8,6 +8,7 @@ from azure.storage.blob import BlobService
 from datetime import datetime
 import animesources
 
+indexedShows = {}
 shows = []
 
 with open('title-map.json') as titlemap_file:
@@ -29,8 +30,9 @@ sources = [
 	animesources.HiDive(titlemap, multiseason, 'uk', proxy),
 	animesources.AmazonPrime(titlemap, multiseason, 'uk', proxy)]
 for source in sources:
-	source.UpdateShowList(shows)
-	print(source.GetName() + ': ' + str(len(shows)))
+	source.UpdateShowList(indexedShows)
+	print(source.GetName() + ': ' + str(len(indexedShows)))
+shows = indexedShows.values()
 with open('alternates.json') as alternates_file:
 	alternates = json.load(alternates_file)
 for alternate in alternates:
