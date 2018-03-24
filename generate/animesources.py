@@ -48,15 +48,13 @@ class AnimeSource:
 		if (self.name in self.multiSeason):
 			if (showNames[0] in self.multiSeason[self.name]):
 				showNames = showNames + self.multiSeason[self.name][showNames[0]]
-				#print(showNames)
 		for name in showNames:
 			translated_name = unidecode(name.lower()).translate(transtable).replace('  ', ' ')
-			match_index = next((i for i, x in enumerate(showList) if compare(x['name'], translated_name)), False)
-			if (match_index != False):
-				showList[match_index]['sites'][self.name] = showUrl
+			if (translated_name in showList):
+				showList[translated_name]['sites'][self.name] = showUrl
 			else:
 				show_obj = {'name': name, 'sites': {self.name: showUrl}}
-				showList.append(show_obj)
+				showList[translated_name] = show_obj
 		
 class Crunchyroll(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
@@ -136,7 +134,7 @@ class Hulu(AnimeSource):
 			showUrl = 'http://www.hulu.com/' + show['show']['canonical_name']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
-		oauth_blob = requests.get('http://www.hulu.com/tv/genres/anime')
+		oauth_blob = requests.get('http://www.hulu.com/lets-get-a-404')
 		oauth_regex = "w.API_DONUT = '([^']*)';"
 		oauth_key = re.findall(oauth_regex, oauth_blob.text)[0]
 		movies_blob = requests.get('http://www.hulu.com/mozart/v1.h2o/movies?exclude_hulu_content=1&genre=anime&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
