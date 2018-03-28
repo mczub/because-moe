@@ -74,10 +74,10 @@ $(document).on('change', '.region-selector', function(e){
 
 $(document).ready(function(){
 	var showshound = {}
-	$('.search-input').focus()
+	$('.search-input').trigger("focus")
 	$('.region-selector').css('background-image', 'url("./flags/' + region + '.svg")');
 	$('.region-selector').val(region.toUpperCase())
-	console.log(region)
+	//console.log(region)
 	$.getJSON(jsons[region], function(data){
 		if (data.shows){
 			shows = data.shows
@@ -156,7 +156,7 @@ $(document).ready(function(){
 		$('.showcase-container').empty();
 		highlights.forEach(function(show){
 			var showcaseHtml = "<div class='showcase-item'>";
-			console.log(show.name)
+			//console.log(show.name)
 			showcaseHtml += "<div class='showcase-art'><img src='" + popImg[show.name] + "'/></div>"
 			showcaseHtml += "<div class='showcase-name'>" + show.name;
 			if (show.alt){

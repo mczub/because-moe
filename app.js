@@ -6,7 +6,7 @@ var app = express();
 	res.send('Hello World!');
 });*/
 var regions = ['us', 'ca', 'au', 'uk'];
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.get('/', function(req, res){
 	var region = 'us';
 	res.render('index', {region: region, query: (req.query.q) ? req.query.q : ""});

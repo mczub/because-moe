@@ -1,18 +1,23 @@
 {
   "name": "becausemoe",
   "version": "1.0.0",
-  "description": "",
+  "description": "Anime streaming search engine",
+  "private": true,
+  "license": "MIT",
+  "author": "mczub",
   "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mczub/because-moe.git"
+  },
   "dependencies": {
-    "express": "^4.13.3",
-    "flag-icon-css": "^0.8.2",
-    "jade": "^1.11.0",
-    "request": "^2.64.0"
+    "express": "^4.16.2",
+    "flag-icon-css": "^2.8.0",
+    "pug": "^2.0.0-rc.4",
+    "request": "^2.83.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }
