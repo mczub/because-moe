@@ -4,7 +4,7 @@ import json
 import string
 from unidecode import unidecode
 from urllib import parse
-from azure.storage.blob import BlobService
+from azure.storage.blob import BlockBlobService
 from datetime import datetime
 import animesources
 
@@ -17,7 +17,7 @@ with open('multi-season.json') as multiseason_file:
 	multiseason = json.load(multiseason_file)
 with open('azure.json') as azure_file:
 	azure_storage = json.load(azure_file)
-azure_blob = BlobService(account_name=azure_storage['account'], account_key=azure_storage['key'])
+azure_blob = BlockBlobService(account_name=azure_storage['account'], account_key=azure_storage['key'])
 sources = [
 	animesources.Hulu(titlemap, multiseason),
 	animesources.Crunchyroll(titlemap, multiseason),
@@ -44,10 +44,9 @@ blob = {"lastUpdated": datetime.utcnow().isoformat(), "shows": shows}
 out_file = open('us.json', 'w')
 json.dump(blob, out_file)
 out_file.close()
-azure_blob.put_block_blob_from_path(
+azure_blob.create_blob_from_path(
 	'assets',
 	'us.json',
-	'us.json',
-	x_ms_blob_content_type='application/json'
+	'us.json'
 )
 print('done')

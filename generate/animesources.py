@@ -3,6 +3,7 @@ sys.path.append("site-packages")
 import requests
 import json
 import re
+import time
 from abc import ABCMeta, abstractmethod
 import string
 from unidecode import unidecode
@@ -79,6 +80,8 @@ class Crunchyroll(AnimeSource):
 			"name": credentials['crunchyroll']['username'], 
 			"password": credentials['crunchyroll']['password']
 		}
+		requests.get('https://www.crunchyroll.com/login')
+		time.sleep(8)
 		crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = self.proxy)
 		blob = crSession.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = self.proxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
@@ -130,21 +133,23 @@ class Hulu(AnimeSource):
 		if (len(self.shows) == 0):
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
-			showName = unidecode(show['show']['name'].strip())
-			showUrl = 'http://www.hulu.com/' + show['show']['canonical_name']
+			showName = unidecode(show[1].strip())
+			showUrl = show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 	def GetData(self):
-		oauth_blob = requests.get('http://www.hulu.com/lets-get-a-404')
-		oauth_regex = "w.API_DONUT = '([^']*)';"
-		oauth_key = re.findall(oauth_regex, oauth_blob.text)[0]
-		movies_blob = requests.get('http://www.hulu.com/mozart/v1.h2o/movies?exclude_hulu_content=1&genre=anime&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
-		anime_blob = requests.get('http://www.hulu.com/mozart/v1.h2o/shows?exclude_hulu_content=1&genre=anime&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
-		anime_blob_2 = requests.get('http://www.hulu.com/mozart/v1.h2o/shows?exclude_hulu_content=1&genre=anime&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=500&region=us&locale=en&language=en&access_token=' + oauth_key)
-		animation_blob = requests.get('http://www.hulu.com/mozart/v1.h2o/shows?exclude_hulu_content=1&genre=animation&sort=release_with_popularity&_language=en&_region=us&items_per_page=1000&position=0&region=us&locale=en&language=en&access_token=' + oauth_key)
-		animation_list = json.loads(animation_blob.text)['data']
-		animation_list = [x for x in animation_list if x['show']['genre'] == "Anime"]
-		anime_list = json.loads(anime_blob.text)['data'] + json.loads(anime_blob_2.text)['data'] + json.loads(movies_blob.text)['data']
-		return anime_list + animation_list
+		url = 'https://www.hulu.com/start/more_content?channel=anime&video_type=all&sort=alpha&is_current=0&closed_captioned=0&has_hd=0&page='
+		first_page = requests.get(url + '1#')
+		num_pages_regex = "total_pages=\"([\d']*)\""
+		num_pages = int(re.findall(num_pages_regex, first_page.text)[0])
+		results = []
+		for curIndex in range(1, num_pages):
+			headers = {
+				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36'
+			}
+			blob = requests.get(url + str(curIndex) + '#', headers = headers, proxies = self.proxy)
+			regex = '<a href=\"([^\"]*)\".*\);\"><img alt=\"([^\"]*)\"'
+			results += re.findall(regex, blob.text)
+		return results
 		
 class Netflix(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
