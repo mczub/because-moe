@@ -25,8 +25,14 @@ input {
 .service-crunchyroll {
   background-image: url("services/crunchyroll-800.png");
 }
+.service-vrv-crunchyroll{
+  background-image:url("./services/vrv-crunchyroll-800.png");
+}
 .service-funimation {
   background-image: url("services/funimation-800.png");
+}
+.service-vrv-funimation{
+  background-image:url("./services/vrv-funimation-800.png")
 }
 .service-funimation-now {
   background-image: url("services/funimation-now-800.png");

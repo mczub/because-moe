@@ -21,7 +21,9 @@ azure_blob = BlockBlobService(account_name=azure_storage['account'], account_key
 sources = [
 	animesources.Hulu(titlemap, multiseason),
 	animesources.Crunchyroll(titlemap, multiseason),
+	animesources.VRVCrunchyroll(titlemap, multiseason),
 	animesources.Funimation(titlemap, multiseason), 
+	animesources.VRVFunimation(titlemap, multiseason),
 	animesources.Netflix(titlemap, multiseason), 
 	animesources.Viewster(titlemap, multiseason),
 	animesources.TubiTV(titlemap, multiseason),

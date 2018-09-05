@@ -44,7 +44,7 @@ var popImg = {
 	"Land of the Lustrous" : "https://bcmoe.blob.core.windows.net/shows/land-of-the-lustrous.png"
 }
 var providers = {
-	'us': ["crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "amazon", "hidive", "yahoo"], 
+	'us': ["crunchyroll", "vrv-crunchyroll", "funimation", "vrv-funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "amazon", "hidive", "yahoo"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "hidive", "amazon"], 
 	'uk': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animax", "tubitv", "hidive", "amazon"],
 	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee", "tubitv", "hidive", "amazon"]
