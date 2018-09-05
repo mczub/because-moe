@@ -134,12 +134,10 @@ class VRVCrunchyroll(AnimeSource):
 		timestamp = str(int(time.time()))
 		nonce = uuid.uuid4().hex
 		vrvSig = getVRVSignature(key, secret, timestamp, nonce)
-		print(vrvSig)
 		headers={
 			"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0",oauth_signature='+ vrvSig
 		}
 		authBlob = requests.get("https://api.vrv.co/core/index", headers = headers, proxies = self.proxy)
-		print(authBlob.text)
 		authPolicies = json.loads(authBlob.text)['signing_policies']
 		policy = authPolicies[0]["value"]
 		signature = authPolicies[1]["value"]
@@ -168,12 +166,10 @@ class VRVFunimation(AnimeSource):
 		timestamp = str(int(time.time()))
 		nonce = uuid.uuid4().hex
 		vrvSig = getVRVSignature(key, secret, timestamp, nonce)
-		print(vrvSig)
 		headers={
 			"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0",oauth_signature='+ vrvSig
 		}
 		authBlob = requests.get("https://api.vrv.co/core/index", headers = headers, proxies = self.proxy)
-		print(authBlob.text)
 		authPolicies = json.loads(authBlob.text)['signing_policies']
 		policy = authPolicies[0]["value"]
 		signature = authPolicies[1]["value"]
