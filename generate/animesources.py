@@ -10,10 +10,36 @@ from unidecode import unidecode
 from urllib import parse
 from datetime import datetime
 import xml.etree.ElementTree as ET
+import oauthlib.oauth1.rfc5849.signature as oauth
+import uuid
 
 transtable = {ord(c): None for c in string.punctuation}
 def compare(first, second):
 	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == second
+def getVRVSignature(key, secret, timestamp, nonce):
+	headers={
+		"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0"'
+	}
+	params=oauth.collect_parameters(
+		uri_query="",
+		body=[],
+		headers=headers,
+		exclude_oauth_signature=True,
+		with_realm=False
+	)
+	norm_params = oauth.normalize_parameters(params)
+	base_string = oauth.construct_base_string(
+		"GET", 
+		"https://api.vrv.co/core/index", 
+		norm_params
+	)
+	sig=oauth.sign_hmac_sha1(
+		base_string,
+		secret,
+		''
+	)
+	return parse.quote(sig)
+
 
 class AnimeSource:
 	__metaclass__ = ABCMeta
@@ -86,6 +112,74 @@ class Crunchyroll(AnimeSource):
 		blob = crSession.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = self.proxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
 		return re.findall(regex, blob.text)
+
+class VRVCrunchyroll(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "vrv-crunchyroll"
+		
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show['title'].strip())
+			showUrl = "https://vrv.co/" + ('series/' if show['type'] == 'series' else 'watch/') + show['id']
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		with open('credentials.json') as creds_file:
+			credentials = json.load(creds_file)
+		key = credentials["vrv"]["key"]
+		secret = credentials["vrv"]["secret"]
+		timestamp = str(int(time.time()))
+		nonce = uuid.uuid4().hex
+		vrvSig = getVRVSignature(key, secret, timestamp, nonce)
+		print(vrvSig)
+		headers={
+			"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0",oauth_signature='+ vrvSig
+		}
+		authBlob = requests.get("https://api.vrv.co/core/index", headers = headers, proxies = self.proxy)
+		print(authBlob.text)
+		authPolicies = json.loads(authBlob.text)['signing_policies']
+		policy = authPolicies[0]["value"]
+		signature = authPolicies[1]["value"]
+		keyPairId = authPolicies[2]["value"]
+		dataBlob = requests.get("https://api.vrv.co/disc/public/v1/US/M2/-/-/browse?channel_id=crunchyroll&n=10000&sort_by=alphabetical&start=0&Policy=" + policy + "&Signature=" + signature + "&Key-Pair-Id=" + keyPairId)
+		return json.loads(dataBlob.text)['items']
+
+class VRVFunimation(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "vrv-funimation"
+		
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show['title'].strip())
+			showUrl = "https://vrv.co/" + ('series/' if show['type'] == 'series' else 'watch/') + show['id']
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		with open('credentials.json') as creds_file:
+			credentials = json.load(creds_file)
+		key = credentials["vrv"]["key"]
+		secret = credentials["vrv"]["secret"]
+		timestamp = str(int(time.time()))
+		nonce = uuid.uuid4().hex
+		vrvSig = getVRVSignature(key, secret, timestamp, nonce)
+		print(vrvSig)
+		headers={
+			"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0",oauth_signature='+ vrvSig
+		}
+		authBlob = requests.get("https://api.vrv.co/core/index", headers = headers, proxies = self.proxy)
+		print(authBlob.text)
+		authPolicies = json.loads(authBlob.text)['signing_policies']
+		policy = authPolicies[0]["value"]
+		signature = authPolicies[1]["value"]
+		keyPairId = authPolicies[2]["value"]
+		dataBlob = requests.get("https://api.vrv.co/disc/public/v1/US/M2/-/-/browse?channel_id=funimation&n=10000&sort_by=alphabetical&start=0&Policy=" + policy + "&Signature=" + signature + "&Key-Pair-Id=" + keyPairId)
+		return json.loads(dataBlob.text)['items']
 		
 class FunimationOld(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
