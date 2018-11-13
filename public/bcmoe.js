@@ -31,7 +31,7 @@ var bgs = [
 	},
 ]
 
-var popular = ["my hero academia", "fullmetal alchemist: brotherhood", "monthly girls' nozaki-kun", "land of the lustrous", "eureka seven", 
+var popular = ["my hero academia", "fullmetal alchemist: brotherhood", "monthly girls' nozaki-kun", "revue starlight", "eureka seven", 
 	"mob psycho 100", "love live! school idol project", "dragon ball super"]
 var popImg = {
 	"My Hero Academia": "https://bcmoe.blob.core.windows.net/shows/my-hero-academia.png",
@@ -41,7 +41,7 @@ var popImg = {
 	"Fullmetal Alchemist: Brotherhood": "https://bcmoe.blob.core.windows.net/shows/full-metal-alchemist-brotherhood.png",
 	"Love Live! School Idol Project": "https://bcmoe.blob.core.windows.net/shows/love-live.png",
 	"Monthly Girls' Nozaki-kun": "https://bcmoe.blob.core.windows.net/shows/nozaki.png",
-	"Land of the Lustrous" : "https://bcmoe.blob.core.windows.net/shows/land-of-the-lustrous.png"
+	"Revue Starlight" : "https://bcmoe.blob.core.windows.net/shows/revue-starlight.png"
 }
 var providers = {
 	'us': ["crunchyroll", "vrv-crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "amazon", "hidive", "vrv-hidive", "yahoo"], 
