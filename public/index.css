@@ -73,6 +73,9 @@ input {
 .service-hidive {
   background-image: url("services/hidive-800.png");
 }
+.service-vrv-hidive{
+  background-image: url("services/vrv-hidive-800.png");
+}
 .service-yahoo {
   background-image: url("services/yahoo-800.png");
 }

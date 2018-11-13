@@ -23,7 +23,7 @@ sources = [
 	animesources.Crunchyroll(titlemap, multiseason),
 	animesources.VRVCrunchyroll(titlemap, multiseason),
 	animesources.Funimation(titlemap, multiseason), 
-	animesources.VRVFunimation(titlemap, multiseason),
+	animesources.VRVHidive(titlemap, multiseason),
 	animesources.Netflix(titlemap, multiseason), 
 	animesources.Viewster(titlemap, multiseason),
 	animesources.TubiTV(titlemap, multiseason),

@@ -460,6 +460,38 @@ class HiDive(AnimeSource):
 		results += re.findall(regex_movies, blob_movies.text, re.M)
 		return results
 
+class VRVHidive(AnimeSource):
+	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
+		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
+		self.name = "vrv-hidive"
+		
+	def UpdateShowList(self, showList):
+		self.shows = self.GetData()
+		if (len(self.shows) == 0):
+			sys.exit('0 shows found for ' + self.name + ', aborting')
+		for show in self.shows:
+			showName = unidecode(show['title'].strip())
+			showUrl = "https://vrv.co/" + ('series/' if show['type'] == 'series' else 'watch/') + show['id']
+			AnimeSource.AddShow(self, showName, showUrl, showList)
+	def GetData(self):
+		with open('credentials.json') as creds_file:
+			credentials = json.load(creds_file)
+		key = credentials["vrv"]["key"]
+		secret = credentials["vrv"]["secret"]
+		timestamp = str(int(time.time()))
+		nonce = uuid.uuid4().hex
+		vrvSig = getVRVSignature(key, secret, timestamp, nonce)
+		headers={
+			"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0",oauth_signature='+ vrvSig
+		}
+		authBlob = requests.get("https://api.vrv.co/core/index", headers = headers, proxies = self.proxy)
+		authPolicies = json.loads(authBlob.text)['signing_policies']
+		policy = authPolicies[0]["value"]
+		signature = authPolicies[1]["value"]
+		keyPairId = authPolicies[2]["value"]
+		dataBlob = requests.get("https://api.vrv.co/disc/public/v1/US/M2/-/-/browse?channel_id=hidive&n=10000&sort_by=alphabetical&start=0&Policy=" + policy + "&Signature=" + signature + "&Key-Pair-Id=" + keyPairId)
+		return json.loads(dataBlob.text)['items']
+
 class YahooView(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
