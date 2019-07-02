@@ -44,7 +44,7 @@ var popImg = {
 	"Revue Starlight" : "https://bcmoe.blob.core.windows.net/shows/revue-starlight.png"
 }
 var providers = {
-	'us': ["crunchyroll", "vrv-crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "amazon", "hidive", "vrv-hidive", "yahoo"], 
+	'us': ["crunchyroll", "vrv-crunchyroll", "funimation", "hulu", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "amazon", "hidive", "vrv-hidive"], 
 	'ca': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animenetwork", "tubitv", "hidive", "amazon"], 
 	'uk': ["crunchyroll", "funimation", "netflix", "viewster", "daisuki", "animax", "tubitv", "hidive", "amazon"],
 	'au': ["crunchyroll", "netflix", "viewster", "daisuki", "animelab", "hanabee", "tubitv", "hidive", "amazon"]
