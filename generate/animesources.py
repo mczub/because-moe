@@ -1,6 +1,5 @@
 import sys
 sys.path.append("site-packages")
-import requests
 import json
 import re
 import time
@@ -10,12 +9,16 @@ from unidecode import unidecode
 from urllib import parse
 from datetime import datetime
 import xml.etree.ElementTree as ET
-import oauthlib.oauth1.rfc5849.signature as oauth
 import uuid
 
-transtable = {ord(c): None for c in string.punctuation}
+import requests
+import oauthlib.oauth1.rfc5849.signature as oauth
+
+TRANS_TABLE = {ord(c): None for c in string.punctuation}
+
 def compare(first, second):
-	return unidecode(first.lower()).translate(transtable).replace('  ', ' ') == second
+	return unidecode(first.lower()).translate(TRANS_TABLE).replace('  ', ' ') == second
+
 def getVRVSignature(key, secret, timestamp, nonce):
 	headers={
 		"Authorization": 'OAuth oauth_consumer_key="' + key + '",oauth_signature_method="HMAC-SHA1",oauth_timestamp="' + timestamp + '",oauth_nonce="' + nonce +'",oauth_version="1.0"'
@@ -90,12 +93,13 @@ class Crunchyroll(AnimeSource):
 		
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[0].strip())
 			showUrl = "http://www.crunchyroll.com" + show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+			
 	def GetData(self):
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
@@ -120,12 +124,13 @@ class VRVCrunchyroll(AnimeSource):
 		
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
 			showUrl = "https://vrv.co/" + ('series/' if show['type'] == 'series' else 'watch/') + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
@@ -152,12 +157,13 @@ class VRVFunimation(AnimeSource):
 		
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
 			showUrl = "https://vrv.co/" + ('series/' if show['type'] == 'series' else 'watch/') + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
@@ -181,14 +187,16 @@ class FunimationOld(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "funimation-old"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[1].strip())
 			showUrl = show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		blob = requests.get('http://www.funimation.com/videos/episodes', proxies = self.proxy)
 		regex = '<a class=\"fs16 bold\" href=\"([^\"]*)\">([^\"]*)</a>'
@@ -198,34 +206,36 @@ class Funimation(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "funimation"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
 			showUrl = 'http://www.funimation.com/shows/' + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
-		results = []
 		blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=500&offset=0&territory=' + self.region, proxies = self.proxy)
-		list = ET.fromstring(blob.text)
-		for show in list.iterfind('item'):
-			results.append({'title': show.find('title').text, 'id': show.find('id').text})
-		return results
+		item_list = ET.fromstring(blob.text).iterfind('item')
+		return [{'title': show.find('title').text, 'id': show.find('id').text} for show in item_list]
 		
 class Hulu(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "hulu"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
+
 		for show in self.shows:
 			showName = unidecode(show[1].strip())
 			showUrl = show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		url = 'https://www.hulu.com/start/more_content?channel=anime&video_type=all&sort=alpha&is_current=0&closed_captioned=0&has_hd=0&page='
 		first_page = requests.get(url + '1#')
@@ -251,14 +261,16 @@ class Netflix(AnimeSource):
 			'ca': '33',
 			'au': '23'
 		}
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[1].strip())
 			showUrl = "http://www.netflix.com/title/" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
@@ -280,15 +292,17 @@ class Daisuki(AnimeSource):
 			'ca': 'ca',
 			'au': 'au'
 		}
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		transtable = {ord(c): None for c in string.punctuation}
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
 			showUrl = "http://www.daisuki.net/anime/detail/" + show['ad_id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		blob = requests.get('http://www.daisuki.net/bin/wcm/searchAnimeAPI?api=anime_list&searchOptions=&currentPath=%2Fcontent%2Fdaisuki%2F' + self.countryCodes[self.region] + '%2Fen', proxies = self.proxy)
 		return blob.json()['response']
@@ -297,14 +311,16 @@ class Viewster(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "viewster"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['Title'].strip())
 			showUrl = "https://www.viewster.com/serie/" + show['OriginId']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		api_blob = requests.get('https://www.viewster.com/', proxies = self.proxy)
 		api_token = api_blob.cookies['api_token']
@@ -322,14 +338,16 @@ class AnimeLab(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "animelab"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['name'].strip())
 			showUrl = "https://www.animelab.com/shows/" + show['slug']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		results = []
 		for curIndex in range(0, 5):
@@ -341,15 +359,17 @@ class Animax(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "animax"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			#print(show)
 			showName = unidecode(show[1].strip())
 			showUrl = "https://www.animaxtv.co.uk/" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		blob = requests.get('http://www.animaxtv.co.uk/programs', proxies = self.proxy)
 		regex1 = '<optgroup label=\"Shows &amp; Movies\">(.*)</optgroup></select>'
@@ -361,6 +381,7 @@ class Hanabee(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "hanabee"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
 		for show in self.shows:
@@ -368,6 +389,7 @@ class Hanabee(AnimeSource):
 			showName = unidecode(show[1].strip())
 			showUrl = "http://hanabee.tv" + show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		results = []
 		for curIndex in range(0, 5):
@@ -380,14 +402,16 @@ class AnimeNetwork(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "animenetwork"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[0].strip().replace('&#39;', '\''))
 			showUrl = "http://www.theanimenetwork.com" + show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		results = []
 		pages = ['0'] + list(string.ascii_uppercase)
@@ -402,15 +426,17 @@ class TubiTV(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "tubitv"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = self.shows[show]['title']
 			showTypes = {'v': 'video', 's': 'series'}
 			showUrl = 'http://tubitv.com/' + showTypes[self.shows[show]['type']] + '/' + str(int(show))
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		blob = requests.get('http://tubitv.com/oz/containers/anime/content?cursor=0&limit=1000', proxies = self.proxy)
 		return json.loads(blob.text)['contents']
@@ -419,14 +445,16 @@ class AnimeStrike(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "animestrike"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[0].strip())
 			showUrl = show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		results = []
 		for curIndex in range(1, 15):
@@ -442,14 +470,16 @@ class HiDive(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "hidive"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[1].strip().replace('&#39;', '\''))
 			showUrl = show[0]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		results = []
 		blob_tv = requests.get('https://www.hidive.com/tv', proxies = self.proxy)
@@ -467,12 +497,13 @@ class VRVHidive(AnimeSource):
 		
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
 			showUrl = "https://vrv.co/" + ('series/' if show['type'] == 'series' else 'watch/') + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
@@ -496,14 +527,16 @@ class YahooView(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "yahoo"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip().replace('&#39;', '\''))
 			showUrl = "https://view.yahoo.com/show/" + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		blob = requests.get('https://view.yahoo.com/browse/tv/genre/anime/shows', proxies = self.proxy)
 		regex = '\"seriesListItems\":(.*)},\"StreamStore\"'
@@ -515,14 +548,16 @@ class AmazonPrime(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
 		self.name = "amazon"
+
 	def UpdateShowList(self, showList):
 		self.shows = self.GetData()
-		if (len(self.shows) == 0):
+		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show[0].strip())
 			showUrl = show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
+
 	def GetData(self):
 		urls = {
 			'us': 'https://www.amazon.com/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_theme_browse-bin%3A2650364011%2Cp_85%3A2470955011%2Cp_n_entity_type%3A14069184011%7C14069185011&bbn=2858778011&ie=UTF8&qid=1515170443&rnid=14069183011&page=',
