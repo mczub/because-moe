@@ -25,7 +25,6 @@ sources = [
 	animesources.Crunchyroll(titlemap, multiseason, 'ca', proxy),
 	animesources.Funimation(titlemap, multiseason, 'ca', proxy), 
 	animesources.Netflix(titlemap, multiseason, 'ca', proxy), 
-	animesources.Viewster(titlemap, multiseason, 'ca', proxy),
 	animesources.TubiTV(titlemap, multiseason, 'ca', proxy),
 	animesources.HiDive(titlemap, multiseason, 'ca', proxy)]
 for source in sources:

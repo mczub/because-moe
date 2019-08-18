@@ -1,5 +1,10 @@
 import sys
 sys.path.append("site-packages")
+<<<<<<< Updated upstream
+=======
+import requests
+import cfscrape
+>>>>>>> Stashed changes
 import json
 import re
 import time
@@ -10,6 +15,7 @@ from urllib import parse
 from datetime import datetime
 import xml.etree.ElementTree as ET
 import uuid
+import random
 
 import requests
 import oauthlib.oauth1.rfc5849.signature as oauth
@@ -103,15 +109,14 @@ class Crunchyroll(AnimeSource):
 	def GetData(self):
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
-		crSession = requests.Session()
+		crSession = cfscrape.create_scraper()
 		params = {
 			"formname": "RpcApiUser_Login",
 			"failurl": "http://www.crunchyroll.com/login",
 			"name": credentials['crunchyroll']['username'], 
 			"password": credentials['crunchyroll']['password']
 		}
-		requests.get('https://www.crunchyroll.com/login')
-		time.sleep(8)
+		crSession.get('https://www.crunchyroll.com/login', params=params, proxies = self.proxy)
 		crSession.post('https://www.crunchyroll.com/?a=formhandler', params=params, proxies = self.proxy)
 		blob = crSession.get('http://www.crunchyroll.com/videos/anime/alpha?group=all', proxies = self.proxy)
 		regex = '<a title=\"([^\"]*)\" token=\"shows-portraits\" itemprop=\"url\" href=\"([^\"]*)\"'
@@ -213,13 +218,34 @@ class Funimation(AnimeSource):
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
-			showUrl = 'http://www.funimation.com/shows/' + show['id']
+			showUrl = 'http://www.funimation.com/shows/' + show['slug']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 
 	def GetData(self):
+<<<<<<< Updated upstream
 		blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=500&offset=0&territory=' + self.region, proxies = self.proxy)
 		item_list = ET.fromstring(blob.text).iterfind('item')
 		return [{'title': show.find('title').text, 'id': show.find('id').text} for show in item_list]
+=======
+		results = []
+		with open('credentials.json') as creds_file:
+			credentials = json.load(creds_file)
+		session = requests.Session()
+		login_params = {
+			'username': credentials['funimation']['username'], 
+			'password': credentials['funimation']['password'], 
+		}
+		login_blob = session.post('https://prod-api-funimationnow.dadcdigital.com/api/auth/login', params = login_params, proxies = self.proxy)
+		search_blob = session.get('https://prod-api-funimationnow.dadcdigital.com/api/source/funimation/search/auto?unique=true&limit=100&q=', proxies = self.proxy)
+		num_items = int(json.loads(search_blob.text)["count"])
+		num_pages = (num_items // 100) + 1
+		for curIndex in range(1, num_pages + 1):
+			offset = 100 * (curIndex - 1)
+			page_blob = session.get('https://prod-api-funimationnow.dadcdigital.com/api/source/funimation/search/auto?unique=true&limit=100&q=&offset=' + str(offset), proxies = self.proxy)
+			page_item = json.loads(page_blob.text)["items"]["hits"]
+			results += page_item
+		return results
+>>>>>>> Stashed changes
 		
 class Hulu(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
@@ -278,8 +304,17 @@ class Netflix(AnimeSource):
 			"X-Mashape-Key": credentials['mashape'],
 			"Accept": "application/json"
 		}
-		dataBlob = requests.get("https://unogs-unogs-v1.p.mashape.com/api.cgi?q=-!1900,3000-!0,5-!0,10-!10695%2C11146%2C2653%2C2729%2C3063%2C413820%2C452%2C6721%2C7424%2C9302-!Any-!Any-!Any-!gt0&t=ns&st=adv&ob=Relevance&p=1&sa=and&cl=" + self.countryCodes[self.region], headers = headers)
-		return json.loads(dataBlob.text)["ITEMS"]
+		hasMoreResults = True
+		allItems = []
+		curPage = 1
+		while (hasMoreResults):
+			dataBlob = requests.get("https://unogs-unogs-v1.p.rapidapi.com/api.cgi?q=-!1900,3000-!0,5-!0,10-!10695%2C11146%2C2653%2C2729%2C3063%2C413820%2C452%2C6721%2C7424%2C9302-!Any-!Any-!Any-!gt0&t=ns&st=adv&ob=Relevance&sa=and&cl=" + self.countryCodes[self.region] + "&p=" + str(curPage), headers = headers)
+			newItems = json.loads(dataBlob.text)["ITEMS"]
+			allItems += newItems
+			curPage += 1
+			if (len(newItems) == 0):
+				hasMoreResults = False
+		return allItems
 		
 		
 class Daisuki(AnimeSource):
@@ -523,6 +558,7 @@ class VRVHidive(AnimeSource):
 		dataBlob = requests.get("https://api.vrv.co/disc/public/v1/US/M2/-/-/browse?channel_id=hidive&n=10000&sort_by=alphabetical&start=0&Policy=" + policy + "&Signature=" + signature + "&Key-Pair-Id=" + keyPairId)
 		return json.loads(dataBlob.text)['items']
 
+<<<<<<< Updated upstream
 class YahooView(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
@@ -544,6 +580,8 @@ class YahooView(AnimeSource):
 		results = json.loads(resultsJson)
 		return results
 
+=======
+>>>>>>> Stashed changes
 class AmazonPrime(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
@@ -554,21 +592,58 @@ class AmazonPrime(AnimeSource):
 		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
+<<<<<<< Updated upstream
 			showName = unidecode(show[0].strip())
 			showUrl = show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 
+=======
+			if (self.region == 'us'):
+				showName = unidecode(show[1].strip())
+				showUrl = 'https://www.amazon.com/' + show[0]
+				AnimeSource.AddShow(self, showName, showUrl, showList)
+			else:
+				showName = unidecode(show[1].strip())
+				showUrl = 'https://www.amazon.co.uk/' + show[0]
+				AnimeSource.AddShow(self, showName, showUrl, showList)
+>>>>>>> Stashed changes
 	def GetData(self):
 		urls = {
-			'us': 'https://www.amazon.com/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A2858778011%2Cp_n_theme_browse-bin%3A2650364011%2Cp_85%3A2470955011%2Cp_n_entity_type%3A14069184011%7C14069185011&bbn=2858778011&ie=UTF8&qid=1515170443&rnid=14069183011&page=',
-			'uk': 'https://www.amazon.co.uk/s/gp/search/ref=sr_nr_p_n_entity_type_1?fst=as%3Aoff&rh=n%3A3280626031%2Cp_n_theme_browse-bin%3A3046743031%2Cp_n_ways_to_watch%3A7448660031%2Cp_n_entity_type%3A9739952031%7C9739955031&bbn=3280626031&ie=UTF8&qid=1515297590&rnid=9739949031&page='
+			'us': 'https://www.amazon.com/s?k=prime+anime&i=instant-video&bbn=2858778011&rh=n%3A2858778011%2Cp_n_ways_to_watch%3A12007865011%2Cp_n_entity_type%3A14069184011%7C14069185011&dc&qid=1556179818&rnid=14069183011&ref=sr_pg_4&page=',
+			'uk': 'https://www.amazon.co.uk/s?k=anime&i=prime-instant-video&bbn=3280626031&rh=p_n_entity_type%3A9739952031%7C9739955031&lo=list&dc&qid=1556040360&rnid=9739949031&ref=sr_pg_1&page='
+		}
+		regexes = {
+			'us': '<a class="a-link-normal a-text-normal" href="([^\"]*)">[\s]*<span class="a-size-medium a-color-base a-text-normal">([^\"]*)</span>',
+			'uk': '<a class="a-link-normal a-text-normal" href="([^\"]*)">[\s]*<span class="a-size-medium a-color-base a-text-normal">([^\"]*)</span>'
 		}
 		results = []
-		for curIndex in range(1, 15):
-			headers = {
-				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36'
-			}
-			blob = requests.get(urls[self.region] + str(curIndex) , headers = headers, proxies = self.proxy)
-			regex = '<a class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal" title="([^\"]*)" href="([^\"]*)"'
+		for curIndex in range(1, 25):
+			stillNeedPage = True
+			tries = 0
+			while (stillNeedPage and tries <= 10):
+				print(curIndex)
+				allUA = [
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36",
+					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36"
+				]
+				headers = {
+					'User-Agent': random.sample(allUA, 1)[0]
+				}
+				blob = requests.get(urls[self.region] + str(curIndex) , headers = headers, proxies = self.proxy)
+				stillNeedPage = ("Robot Check" in blob.text)
+				tries+=1
+				if (tries > 10):
+					sys.exit("couldn't get page " + str(curIndex) + " for amazon")
+			regex = regexes[self.region]
 			results += re.findall(regex, blob.text)
+<<<<<<< Updated upstream
 		return results
+=======
+			file_name = str(curIndex) + '.html'
+			out_file = open(file_name, 'w')
+			out_file.write(unidecode(blob.text))
+			out_file.close()
+		return results
+>>>>>>> Stashed changes

@@ -25,11 +25,9 @@ sources = [
 	animesources.Funimation(titlemap, multiseason), 
 	animesources.VRVHidive(titlemap, multiseason),
 	animesources.Netflix(titlemap, multiseason), 
-	animesources.Viewster(titlemap, multiseason),
 	animesources.TubiTV(titlemap, multiseason),
 	animesources.AmazonPrime(titlemap, multiseason),
-	animesources.HiDive(titlemap, multiseason),
-	animesources.YahooView(titlemap, multiseason)
+	animesources.HiDive(titlemap, multiseason)
 	]
 for source in sources:
 	source.UpdateShowList(indexedShows)
