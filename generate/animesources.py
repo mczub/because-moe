@@ -1,10 +1,7 @@
 import sys
 sys.path.append("site-packages")
-<<<<<<< Updated upstream
-=======
 import requests
 import cfscrape
->>>>>>> Stashed changes
 import json
 import re
 import time
@@ -218,15 +215,13 @@ class Funimation(AnimeSource):
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
 			showName = unidecode(show['title'].strip())
-			showUrl = 'http://www.funimation.com/shows/' + show['slug']
+			showUrl = 'http://www.funimation.com/shows/' + show['id']
 			AnimeSource.AddShow(self, showName, showUrl, showList)
 
 	def GetData(self):
-<<<<<<< Updated upstream
 		blob = requests.get('https://api-funimation.dadcdigital.com/xml/longlist/content/page/?id=shows&sort=&title=All+Shows&sort_direction=DESC&role=g&itemThemes=dateAddedShow&limit=500&offset=0&territory=' + self.region, proxies = self.proxy)
 		item_list = ET.fromstring(blob.text).iterfind('item')
 		return [{'title': show.find('title').text, 'id': show.find('id').text} for show in item_list]
-=======
 		results = []
 		with open('credentials.json') as creds_file:
 			credentials = json.load(creds_file)
@@ -245,7 +240,6 @@ class Funimation(AnimeSource):
 			page_item = json.loads(page_blob.text)["items"]["hits"]
 			results += page_item
 		return results
->>>>>>> Stashed changes
 		
 class Hulu(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
@@ -558,7 +552,6 @@ class VRVHidive(AnimeSource):
 		dataBlob = requests.get("https://api.vrv.co/disc/public/v1/US/M2/-/-/browse?channel_id=hidive&n=10000&sort_by=alphabetical&start=0&Policy=" + policy + "&Signature=" + signature + "&Key-Pair-Id=" + keyPairId)
 		return json.loads(dataBlob.text)['items']
 
-<<<<<<< Updated upstream
 class YahooView(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
@@ -580,8 +573,6 @@ class YahooView(AnimeSource):
 		results = json.loads(resultsJson)
 		return results
 
-=======
->>>>>>> Stashed changes
 class AmazonPrime(AnimeSource):
 	def __init__(self, titleMap, multiSeason, region = 'us', proxy = {}):
 		AnimeSource.__init__(self, titleMap, multiSeason, region, proxy)
@@ -592,12 +583,9 @@ class AmazonPrime(AnimeSource):
 		if not self.shows:
 			sys.exit('0 shows found for ' + self.name + ', aborting')
 		for show in self.shows:
-<<<<<<< Updated upstream
 			showName = unidecode(show[0].strip())
 			showUrl = show[1]
 			AnimeSource.AddShow(self, showName, showUrl, showList)
-
-=======
 			if (self.region == 'us'):
 				showName = unidecode(show[1].strip())
 				showUrl = 'https://www.amazon.com/' + show[0]
@@ -606,7 +594,6 @@ class AmazonPrime(AnimeSource):
 				showName = unidecode(show[1].strip())
 				showUrl = 'https://www.amazon.co.uk/' + show[0]
 				AnimeSource.AddShow(self, showName, showUrl, showList)
->>>>>>> Stashed changes
 	def GetData(self):
 		urls = {
 			'us': 'https://www.amazon.com/s?k=prime+anime&i=instant-video&bbn=2858778011&rh=n%3A2858778011%2Cp_n_ways_to_watch%3A12007865011%2Cp_n_entity_type%3A14069184011%7C14069185011&dc&qid=1556179818&rnid=14069183011&ref=sr_pg_4&page=',
@@ -638,12 +625,9 @@ class AmazonPrime(AnimeSource):
 					sys.exit("couldn't get page " + str(curIndex) + " for amazon")
 			regex = regexes[self.region]
 			results += re.findall(regex, blob.text)
-<<<<<<< Updated upstream
 		return results
-=======
 			file_name = str(curIndex) + '.html'
 			out_file = open(file_name, 'w')
 			out_file.write(unidecode(blob.text))
 			out_file.close()
 		return results
->>>>>>> Stashed changes
