@@ -82,7 +82,7 @@ class AnimeSource:
 			if (showNames[0] in self.multiSeason[self.name]):
 				showNames = showNames + self.multiSeason[self.name][showNames[0]]
 		for name in showNames:
-			translated_name = unidecode(name.lower()).translate(transtable).replace('  ', ' ')
+			translated_name = unidecode(name.lower()).translate(TRANS_TABLE).replace('  ', ' ')
 			if (translated_name in showList):
 				showList[translated_name]['sites'][self.name] = showUrl
 			else:
@@ -625,9 +625,4 @@ class AmazonPrime(AnimeSource):
 					sys.exit("couldn't get page " + str(curIndex) + " for amazon")
 			regex = regexes[self.region]
 			results += re.findall(regex, blob.text)
-		return results
-			file_name = str(curIndex) + '.html'
-			out_file = open(file_name, 'w')
-			out_file.write(unidecode(blob.text))
-			out_file.close()
 		return results
